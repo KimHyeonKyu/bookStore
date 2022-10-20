@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import bannerImage from "C:/Users/ebs17/bookStore/book-frontend/src/image/slider-img.png";
+import bannerImage from "C:/Users/user/bookStore/book-frontend/src/image/slider-img.png";
 
 const Banner = () => {
   const StyledBannerWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
     padding: 2rem;
   `;
 
@@ -23,14 +23,14 @@ const Banner = () => {
 
   const StyledContentTitle = styled.div`
     font-size: 1.3rem;
-    color: #00CED1;
+    color: #00ced1;
     font-weight: 600;
   `;
 
   const StyledContentFirst = styled.div`
-  margin-top: 1rem;
+    margin-top: 1rem;
     font-size: 3rem;
-    line-height : 2.8rem
+    line-height: 2.8rem;
   `;
 
   const StyledContentSecond = styled.div`
@@ -41,16 +41,19 @@ const Banner = () => {
 
   return (
     <StyledBannerWrap>
-        <StyledBannerContentWrap>
+      <StyledBannerContentWrap>
         <StyledContentTitle>발라딘 중고서점</StyledContentTitle>
-        <StyledContentFirst>For All Your <br></br>
-        Reading Needs</StyledContentFirst>
-        <StyledContentSecond>발라딘은 국내 최고 중고서점 판매업체 입니다.<br></br> 
-        " 책을 사느라 들인 돈은 결코 손해가 아니다.<br></br> 
-         오히려 훗날에 만 배의 이익을 얻게 될 것이다. " - 왕안석
+        <StyledContentFirst>
+          For All Your <br></br>
+          Reading Needs
+        </StyledContentFirst>
+        <StyledContentSecond>
+          발라딘은 국내 최고 중고서점 판매업체 입니다.<br></br>" 책을 사느라
+          들인 돈은 결코 손해가 아니다.<br></br>
+          오히려 훗날에 만 배의 이익을 얻게 될 것이다. " - 왕안석
         </StyledContentSecond>
-        </StyledBannerContentWrap>
-        
+      </StyledBannerContentWrap>
+
       <StyledBannerImage src={bannerImage} />
     </StyledBannerWrap>
   );
