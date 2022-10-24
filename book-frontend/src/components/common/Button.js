@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const StyledButton = styled.button`
   width: 40rem;
@@ -17,12 +17,12 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({children, type, onClick }) => {
-    return (
-        <StyledButton type={type} onClick={onClick}>
-            {children}
-        </StyledButton>
-    );
+const Button = ({ children, type, onClick }) => {
+  return (
+    <StyledButton type={type} onClick={onClick}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export default Button;

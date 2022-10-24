@@ -12,7 +12,7 @@ const StyledImageBlock = styled.div`
   & + & {
     margin-left: 4rem;
   }
-  &:hover{
+  &:hover {
     opacity: 0.7;
   }
 `;
@@ -41,7 +41,6 @@ const StyledImageContent = styled.div`
 `;
 
 const BookImageBlock = ({ bookData, onClick, index }) => {
-
   const [visible, setVisible] = useState("false");
 
   const imageClick = (e) => {
@@ -50,24 +49,24 @@ const BookImageBlock = ({ bookData, onClick, index }) => {
 
   return (
     <>
-    {visible === "false" && (
-      <StyledImageBlock onClick={imageClick}>
-      <StyledImage src={bookData.cover} />
+      {visible === "false" && (
+        <StyledImageBlock onClick={imageClick}>
+          <StyledImage src={bookData.cover} />
 
-      <StyledImageContent>
-        책 제목 : {bookData.title}
-        <br></br>
-        지은이 : {bookData.author}
-        <br></br>
-        가격 : {bookData.priceStandard}원<br></br>
-      </StyledImageContent>
-    </StyledImageBlock>
-    )}
-     {visible === "true" && (
-      <StyledImageBlockWrap>
-        <BookProduct key={bookData.title} bookData={bookData} />
-      </StyledImageBlockWrap>
-    )}
+          <StyledImageContent>
+            책 제목 : {bookData.title}
+            <br></br>
+            지은이 : {bookData.author}
+            <br></br>
+            가격 : {bookData.priceStandard}원<br></br>
+          </StyledImageContent>
+        </StyledImageBlock>
+      )}
+      {visible === "true" && (
+        <StyledImageBlockWrap>
+          <BookProduct key={bookData.title} bookData={bookData} />
+        </StyledImageBlockWrap>
+      )}
     </>
   );
 };
