@@ -17,9 +17,9 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({children}) => {
+const Button = ({children, type, onClick }) => {
     return (
-        <StyledButton>
+        <StyledButton type={type} onClick={onClick}>
             {children}
         </StyledButton>
     );

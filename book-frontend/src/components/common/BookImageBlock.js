@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import BookProduct from "../BookProduct";
 
 const StyledImageBlock = styled.div`
@@ -12,6 +11,9 @@ const StyledImageBlock = styled.div`
   margin-left: 1rem;
   & + & {
     margin-left: 4rem;
+  }
+  &:hover{
+    opacity: 0.7;
   }
 `;
 

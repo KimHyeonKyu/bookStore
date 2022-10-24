@@ -1,23 +1,44 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const StyledInputTextWrap = styled.div`
-    & + & {
-        margin-top: 0.5rem;
-    }
+  & + & {
+    margin-top: 0.5rem;
+  }
 `;
 
-const InputText = ({ type, placeholder, inputValue }) => {
-    return (
-        <StyledInputTextWrap>
-            <input 
-            type={type}
-            class="form-control form-control-lg"
-            placeholder={placeholder}
-            value={inputValue}
-          ></input>
-        </StyledInputTextWrap>
-    );
+const InputText = ({
+  name,
+  type,
+  placeholder,
+  inputValue,
+  value,
+  onChange,
+}) => {
+  return (
+    <StyledInputTextWrap>
+      {type === "address" && (
+        <input
+          name={name}
+          type={type}
+          className="form-control form-control-lg"
+          placeholder={placeholder}
+          defaultValue={inputValue}
+          onChange={onChange}
+        ></input>
+      )}
+      {type !== "address" && (
+        <input
+          name={name}
+          type={type}
+          className="form-control form-control-lg"
+          placeholder={placeholder}
+          defaultValue={value}
+          onChange={onChange}
+        ></input>
+      )}
+    </StyledInputTextWrap>
+  );
 };
 
 export default InputText;
