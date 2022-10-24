@@ -11,7 +11,7 @@ const StyledTableWrap = styled.div`
 const Table = () => {
   return (
     <StyledTableWrap>
-      <table class="table table-striped">
+      <table className="table table-striped">
         <thead>
           <tr>
             <th scope="col">주문일</th>
@@ -21,7 +21,7 @@ const Table = () => {
             <th scope="col">가격</th>
           </tr>
         </thead>
-        <tbody class="table-group-divider">
+        <tbody className="table-group-divider">
           <tr>
             <td>1번</td>
             <td>2번</td>

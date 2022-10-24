@@ -24,7 +24,7 @@ export const register = async ctx => {
         // id가 이미 존재하는지 확인
         const databaseId = await Member.findById(id);
         if (databaseId) {
-            ctx.status = 409 // conflict error, 기입할려는 id가 db와 중복 데이터면 나타내는 error(409)
+            ctx.status = 409; // conflict error, 기입할려는 id가 db와 중복 데이터면 나타내는 error(409)
             return;
         }
 

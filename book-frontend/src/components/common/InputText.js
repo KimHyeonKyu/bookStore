@@ -14,6 +14,7 @@ const InputText = ({
   inputValue,
   value,
   onChange,
+  onMouseMove
 }) => {
   return (
     <StyledInputTextWrap>
@@ -25,6 +26,7 @@ const InputText = ({
           placeholder={placeholder}
           defaultValue={inputValue}
           onChange={onChange}
+          onBlur={onMouseMove}
         ></input>
       )}
       {type !== "address" && (
