@@ -1,8 +1,57 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Button from "./common/Button";
 
 const BookProduct = ({ bookData }) => {
+  useEffect(() => {
+    const jquery = document.createElement("script");
+    jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+    const iamport = document.createElement("script");
+    iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+    document.head.appendChild(jquery);
+    document.head.appendChild(iamport);
+    return () => {
+      document.head.removeChild(jquery);
+      document.head.removeChild(iamport);
+    };
+  }, []);
+
+  const onClickPayment = () => {
+    console.log("실행!");
+    const { IMP } = window;
+    IMP.init("imp14112312");
+    const data = {
+      pg: "html5_inicis", // PG사
+      pay_method: "card", // 결제수단
+      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+      amount: bookData.priceStandard, // 결제금액
+      name: bookData.title, // 주문명
+      buyer_name: "홍길동", // 구매자 이름
+      buyer_tel: "01012341234", // 구매자 전화번호
+      buyer_email: "example@example", // 구매자 이메일
+      buyer_addr: "신사동 661-16", // 구매자 주소
+      buyer_postcode: "06018", // 구매자 우편번호
+    };
+
+    IMP.request_pay(
+      {
+        name: data.name,
+        amount: data.amount,
+        buyer_name: "홍길동",
+      },
+      function callback(response) {
+        if (response.success) {
+          data.impUid = response.imp_uid;
+          data.merchant_uid = response.merchant_uid;
+          data.buyer_name = response.buyer_name;
+          console.log(data.buyer_name);
+        } else {
+          alert(`결제 실패 : ${response.error_msg}`);
+        }
+      }
+    );
+  };
+
   return (
     <>
       <ContentRel>
@@ -74,7 +123,7 @@ const BookProduct = ({ bookData }) => {
             </CheckoutProductCostDl>
 
             <CheckOutProduct>
-              <Button>구매하기</Button>
+              <Button onClick={onClickPayment}>구매하기</Button>
             </CheckOutProduct>
           </StickyAsideDiv>
         </InnerWMobileFull>

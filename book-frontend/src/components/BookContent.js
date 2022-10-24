@@ -29,7 +29,6 @@ const StyledImageBlockWrap = styled.div`
 const BookContent = ({ categoryId }) => {
   const [bookData, setBookData] = useState(null);
   const [visible, setVisible] = useState("false");
-  
 
   const testClick = (e) => {
     setVisible("true");
@@ -54,7 +53,6 @@ const BookContent = ({ categoryId }) => {
   if (!bookData) {
     return null;
   }
-
 
   return (
     <StyledHomeContentWrap>
