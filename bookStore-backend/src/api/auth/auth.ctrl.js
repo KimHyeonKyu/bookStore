@@ -3,6 +3,7 @@ import Member from '../../models/member';
 
 export const register = async ctx => {
     // request body null 값인지 검증하기(validate)
+    // 왜안되지
     const schema = Joi.object().keys({
         id: Joi.string().required(),
         password: Joi.string().required(),
