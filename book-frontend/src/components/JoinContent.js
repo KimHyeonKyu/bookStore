@@ -109,25 +109,20 @@ const JoinContent = () => {
     e.preventDefault();
 
     try {
-      await axios
-        .post("/api/auth/register", {
-          id,
-          password,
-          userName,
-          phoneNumber,
-          address,
-          email,
-        })
-        .catch((error) => {
-          console.log(error.response.status);
-          setErrorStatus(error.response.status);
-        });
-      if (errorStatus === '') {
-        alert("회원가입 성공");
-        navigate("/");
-      }
-    } catch (e) {
-      console.log(e);
+      await axios.post("/api/auth/register", {
+        id,
+        password,
+        userName,
+        phoneNumber,
+        address,
+        email,
+      });
+
+      alert("회원가입 성공");
+      navigate("/");
+    } catch (error) {
+      console.log(error.response.status);
+      setErrorStatus(error.response.status);
     }
   };
 
