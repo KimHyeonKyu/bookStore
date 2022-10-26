@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../image/logo.png"
+import logo from "../image/logo.png";
 import SearchForm from "./common/SearchForm";
 
 const StyledHeaderWrap = styled.div`
@@ -26,15 +26,13 @@ const StyledHeaderTitle = styled(Link)`
   margin-right: 8rem;
 `;
 
-
 const StyledLogo = styled.img.attrs({
-    src: `${logo}`,
-  })`
+  src: `${logo}`,
+})`
   margin-left: 1rem;
-      width: 4rem;
-      height: 4rem;
-  `;
-
+  width: 4rem;
+  height: 4rem;
+`;
 
 const StyledHeaderMenu = styled(Link)`
   font-size: 1.5rem;
@@ -98,27 +96,37 @@ const categories = [
   },
 ];
 
-
 const Header = () => {
+  const [word, setWord] = useState();
+  const searchClick = (e) => {};
+  const changeSearchWord = (e) => {
+    setWord(e.target.value);
+  };
   return (
     <StyledHeaderWrap>
       <StyledHeader>
         <StyledLogo></StyledLogo>
         <StyledHeaderTitle to="/">발라딘</StyledHeaderTitle>
-        <SearchForm/>
+
+        <SearchForm
+          onClick={searchClick}
+          onChange={changeSearchWord}
+          to={`../search/${word}`}
+        />
+
         <StyledHeaderMenu to="/login">로그인</StyledHeaderMenu>
         <StyledHeaderMenu to="/join">회원가입</StyledHeaderMenu>
         <StyledHeaderMenu to="/myPage">마이페이지</StyledHeaderMenu>
         <StyledHeaderMenu to="/customerInquiry">고객문의</StyledHeaderMenu>
       </StyledHeader>
       <StyledSubHeader>
-        {categories.map((c) => (
+        {categories.map((categories) => (
           <StyledSubHeaderMenu
-            key={c.id}
+            key={categories.id}
             className={({ isActive }) => (isActive ? "active" : undefined)}
-            to={c.id === null ? "/" : `/${c.id}`}
+            to={categories.id === null ? "/" : `/category/${categories.id}`}
           >
-            {c.text}
+            {categories.text}
           </StyledSubHeaderMenu>
         ))}
       </StyledSubHeader>
