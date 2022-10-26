@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import BookProduct from "../BookProduct";
 
 const StyledImageBlock = styled.div`

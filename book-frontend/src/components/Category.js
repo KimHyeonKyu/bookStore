@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import CategoryImageBlock from "./common/CategoryImageBlock";
-import socialBookImage from "C:/Users/user/bookStore/book-frontend/src/image/socialBook.png";
-import comicBookImage from "C:/Users/user/bookStore/book-frontend/src/image/comicBook.png";
-import fairytaleBookImage from "C:/Users/user/bookStore/book-frontend/src/image/fairytaleBook.png";
-import pictureBookImage from "C:/Users/user/bookStore/book-frontend/src/image/pictureBook.png";
+import socialBookImage from "C:/Users/ebs17/bookStore/book-frontend/src/image/socialBook.png";
+import comicBookImage from "C:/Users/ebs17/bookStore/book-frontend/src/image/comicBook.png";
+import fairytaleBookImage from "C:/Users/ebs17/bookStore/book-frontend/src/image/fairytaleBook.png";
+import pictureBookImage from "C:/Users/ebs17/bookStore/book-frontend/src/image/pictureBook.png";
 
 const StyledCategoryWrap = styled.div`
   display: flex;

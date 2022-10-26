@@ -1,7 +1,10 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import loginBackground from "../image/loginBackground.PNG";
 import Button from "./common/Button";
+import ErrorMessage from "./common/ErrorMessage";
 import InputText from "./common/InputText";
 
 const StyledLoginContentWrap = styled.div`
@@ -40,25 +43,55 @@ const StyledLoginBoxTitle = styled.div`
   margin-bottom: 2rem;
 `;
 
-const StyledErrorBox = styled.div`
-  font-size: 1rem;
-  color: red;
-  margin-top: 0.5rem;
-  text-align: center;
-`;
-
-
 const LoginContent = () => {
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorStatus, setErrorStatus] = useState("");
+
+  const changeId = (e) => {
+    setId(e.target.value);
+  };
+
+  const changePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const navigate = useNavigate();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("/api/auth/login", {
+        id,
+        password,
+      });
+
+      alert("로그인 성공");
+      navigate("/");
+    } catch (error) {
+      console.log(error.response.status);
+      setErrorStatus(error.response.status);
+    }
+  };
+
   return (
     <StyledLoginContentWrap>
       <StyledTitle>발라딘 로그인</StyledTitle>
       <StyledLoginBox>
         <StyledLoginBoxTitle>Log In</StyledLoginBoxTitle>
-        <form>
-          <InputText placeholder="발라딘 ID" />
-          <InputText type="password" placeholder="비밀번호" />
-          <StyledErrorBox>에러내용 넣을 곳</StyledErrorBox>
-        <Button>로그인</Button>
+        <form onSubmit={onSubmit}>
+          <InputText placeholder="발라딘 ID" value={id} onChange={changeId} />
+          <InputText
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={changePassword}
+          />
+          {errorStatus === 401 && (
+            <ErrorMessage errorMessage="아이디와 비밀번호가 일치하지 않습니다." textAlign="center" />
+          )}
+          <Button>로그인</Button>
         </form>
       </StyledLoginBox>
     </StyledLoginContentWrap>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Button from "./common/Button";
 
-const BookProduct = ({ bookData }) => {
+const BookProduct = ({ bookData, props }) => {
   useEffect(() => {
     const jquery = document.createElement("script");
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../image/logo.png";
@@ -15,7 +16,7 @@ const StyledHeader = styled.div`
   align-items: center;
   background: #6699ff;
   height: 5rem;
-  min-width: 1500px;
+  min-width: 1700px;
 `;
 
 const StyledHeaderTitle = styled(Link)`
@@ -96,28 +97,37 @@ const categories = [
   },
 ];
 
-const Header = () => {
+const Header = ({ loginStatus, props }) => {
+  const logout = () => {
+    axios.post("/api/auth/logout");
+    props.setLoginStatus("");
+  };
   const [word, setWord] = useState();
   const searchClick = (e) => {};
   const changeSearchWord = (e) => {
     setWord(e.target.value);
   };
+
   return (
     <StyledHeaderWrap>
       <StyledHeader>
         <StyledLogo></StyledLogo>
         <StyledHeaderTitle to="/">발라딘</StyledHeaderTitle>
-
         <SearchForm
           onClick={searchClick}
           onChange={changeSearchWord}
           to={`../search/${word}`}
         />
-
-        <StyledHeaderMenu to="/login">로그인</StyledHeaderMenu>
+        {loginStatus !== 200 && (
+          <StyledHeaderMenu to="/login">로그인</StyledHeaderMenu>
+        )}
+        {loginStatus === 200 && (
+          <StyledHeaderMenu onClick={logout}>로그아웃</StyledHeaderMenu>
+        )}
         <StyledHeaderMenu to="/join">회원가입</StyledHeaderMenu>
         <StyledHeaderMenu to="/myPage">마이페이지</StyledHeaderMenu>
         <StyledHeaderMenu to="/customerInquiry">고객문의</StyledHeaderMenu>
+        <StyledHeaderMenu to="/shoppingBasket">장바구니</StyledHeaderMenu>
       </StyledHeader>
       <StyledSubHeader>
         {categories.map((categories) => (
