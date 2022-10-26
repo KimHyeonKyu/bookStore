@@ -25,10 +25,10 @@ const router = new Router();
 router.use('/api', api.routes()); // api 라우트 적용
 
 app.use(bodyParser());
+app.use(jwtMiddleware);
 
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
-app.use(jwtMiddleware);
 
 // PORT가 지정되어 있지 않다면 4000을 설정
 const port = PORT || 4000; 

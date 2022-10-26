@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const StyledButton = styled.button`
   width: 40rem;
@@ -14,6 +14,15 @@ const StyledButton = styled.button`
 
   &:hover {
     background: pink;
+  }
+  ${props => 
+    props.type === "small" &&
+    css`
+    width: 6rem;
+    height: 2rem;
+    font-size: 1.2rem;
+    margin: 0;
+    `
   }
 `;
 

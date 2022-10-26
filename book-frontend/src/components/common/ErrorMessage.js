@@ -5,11 +5,12 @@ const StyledErrorBox = styled.div`
   font-size: 1rem;
   color: red;
   margin-top: 0.5rem;
+  text-align: ${props => props.textAlign || 'left'};
 `;
 
-const ErrorMessage = ({errorMessage}) => {
+const ErrorMessage = ({errorMessage, textAlign}) => {
     return (
-        <StyledErrorBox>{errorMessage}</StyledErrorBox>
+        <StyledErrorBox textAlign={textAlign}>{errorMessage}</StyledErrorBox>
     );
 };
 

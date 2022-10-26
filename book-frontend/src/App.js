@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import BookPage from "./pages/BookPage";
 import CustomerInquiryPage from './pages/CustomerInquiryPage';
@@ -6,8 +6,10 @@ import HomePage from './pages/HomePage';
 import JoinPage from './pages/JoinPage';
 import LoginPage from './pages/LoginPage';
 import MyPage from './pages/MyPage';
+import ShoppingBasketPage from './pages/ShoppingBasketPage';
 
 const App = () => {
+  
   return (
     <Routes>
     <Route path="/" element={<HomePage />} />
@@ -16,6 +18,7 @@ const App = () => {
     <Route path="/myPage" element={<MyPage />} />
     <Route path="/customerInquiry" element={<CustomerInquiryPage />} />
     <Route path="/:categoryId" element={<BookPage />} />
+    <Route path="/shoppingBasket" element={<ShoppingBasketPage />} />
   </Routes>
   );
 };
