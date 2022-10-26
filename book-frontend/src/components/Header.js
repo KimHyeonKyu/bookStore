@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import axios from "axios";
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../image/logo.png";
@@ -102,13 +102,22 @@ const Header = ({ loginStatus, props }) => {
     axios.post("/api/auth/logout");
     props.setLoginStatus("");
   };
+  const [word, setWord] = useState();
+  const searchClick = (e) => {};
+  const changeSearchWord = (e) => {
+    setWord(e.target.value);
+  };
 
   return (
     <StyledHeaderWrap>
       <StyledHeader>
         <StyledLogo></StyledLogo>
         <StyledHeaderTitle to="/">발라딘</StyledHeaderTitle>
-        <SearchForm />
+        <SearchForm
+          onClick={searchClick}
+          onChange={changeSearchWord}
+          to={`../search/${word}`}
+        />
         {loginStatus !== 200 && (
           <StyledHeaderMenu to="/login">로그인</StyledHeaderMenu>
         )}
@@ -121,13 +130,13 @@ const Header = ({ loginStatus, props }) => {
         <StyledHeaderMenu to="/shoppingBasket">장바구니</StyledHeaderMenu>
       </StyledHeader>
       <StyledSubHeader>
-        {categories.map((c) => (
+        {categories.map((categories) => (
           <StyledSubHeaderMenu
-            key={c.id}
+            key={categories.id}
             className={({ isActive }) => (isActive ? "active" : undefined)}
-            to={c.id === null ? "/" : `/${c.id}`}
+            to={categories.id === null ? "/" : `/category/${categories.id}`}
           >
-            {c.text}
+            {categories.text}
           </StyledSubHeaderMenu>
         ))}
       </StyledSubHeader>
