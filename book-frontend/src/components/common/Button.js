@@ -24,6 +24,19 @@ const StyledButton = styled.button`
     margin: 0;
     `
   }
+  ${props => 
+    props.type === "middle" &&
+    css`
+    width: 10rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    margin: 0;
+    & + & {
+      margin-left: 3rem;
+      margin-right: 3rem;
+    }
+    `
+  }
 `;
 
 const Button = ({ children, type, onClick }) => {

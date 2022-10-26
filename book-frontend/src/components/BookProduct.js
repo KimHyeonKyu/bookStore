@@ -1,8 +1,13 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./common/Button";
 
 const BookProduct = ({ bookData, props }) => {
+  const [bookName, setBookName] = useState("");
+  const [bookPrice, setBookPrice] = useState("");
+
   useEffect(() => {
     const jquery = document.createElement("script");
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -50,6 +55,24 @@ const BookProduct = ({ bookData, props }) => {
         }
       }
     );
+  };
+
+  const navigate = useNavigate();
+
+  const onClickShoppingBasket = async (e) => {
+    let bookName = bookData.title;
+    let bookPrice = bookData.priceStandard;
+
+    try {
+      await axios.post("/api/basket/input", {
+        bookName,
+        bookPrice,
+      });
+
+      navigate("/shoppingBasket");
+    } catch (error) {
+      console.log(error.response.status);
+    }
   };
 
   return (
@@ -123,7 +146,12 @@ const BookProduct = ({ bookData, props }) => {
             </CheckoutProductCostDl>
 
             <CheckOutProduct>
-              <Button onClick={onClickPayment}>구매하기</Button>
+              <Button type="middle" onClick={onClickShoppingBasket}>
+                장바구니
+              </Button>
+              <Button type="middle" onClick={onClickPayment}>
+                구매하기
+              </Button>
             </CheckOutProduct>
           </StickyAsideDiv>
         </InnerWMobileFull>

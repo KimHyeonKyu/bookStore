@@ -4,6 +4,7 @@ import { MdCheckBox } from "react-icons/md";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
+import axios from "axios";
 
 const ShoppingBasketContentWrap = styled.div`
   display: flex;
@@ -52,6 +53,8 @@ const ShoppingBasketContent = (props) => {
   const changeBlankBox = () => {
     setCheckState("blank");
   };
+
+  console.log(axios.get("/api/basket/output"));
 
   return (
     <ShoppingBasketContentWrap>

@@ -26,9 +26,11 @@ const StyledImageBlockWrap = styled.div`
   margin: 0 auto;
 `;
 
-const BookContent = ({ categoryId }) => {
+const BookContent = ({ categoryId, loginStatus }) => {
   const [bookData, setBookData] = useState(null);
   const [visible, setVisible] = useState("false");
+
+  console.log(loginStatus);
 
   const testClick = (e) => {
     setVisible("true");
@@ -73,7 +75,7 @@ const BookContent = ({ categoryId }) => {
       )}
       {visible === "true" && (
         <StyledImageBlockWrap>
-          <BookProduct key={bookData.title} bookData={bookData.item[0]} />
+          <BookProduct key={bookData.title} bookData={bookData.item[0]} loginStatus={loginStatus} />
         </StyledImageBlockWrap>
       )}
     </StyledHomeContentWrap>
