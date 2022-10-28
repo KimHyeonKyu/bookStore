@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import bannerImage from "C:/Users/ebs17/bookStore/book-frontend/src/image/slider-img.png";
 
-const Banner = () => {
-  const StyledBannerWrap = styled.div`
+const StyledBannerWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,6 +38,8 @@ const Banner = () => {
     color: #6699ff;
   `;
 
+const Banner = () => {
+  
   return (
     <StyledBannerWrap>
       <StyledBannerContentWrap>
