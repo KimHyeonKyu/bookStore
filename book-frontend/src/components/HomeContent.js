@@ -29,8 +29,6 @@ const StyledImageBlockWrap = styled.div`
   width: 1400px;
 `;
 
-
-
 const HomeContent = () => {
   return (
     <StyledHomeContentWrap>

@@ -2,13 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledTableWrap = styled.div`
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    text-align: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
 `;
 
-
-const Table = () => {
+const ProductTable = () => {
   return (
     <StyledTableWrap>
       <table className="table table-striped">
@@ -77,4 +76,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default ProductTable;
