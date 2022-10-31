@@ -6,7 +6,6 @@ import Button from "./common/Button";
 
 const BookProduct = ({ bookData, props }) => {
   let date = new Date();
-
   const [id, setCheckLogin] = useState("");
 
   useEffect(() => {
