@@ -75,7 +75,11 @@ const BookContent = ({ categoryId, loginStatus }) => {
       )}
       {visible === "true" && (
         <StyledImageBlockWrap>
-          <BookProduct key={bookData.title} bookData={bookData.item[0]} loginStatus={loginStatus} />
+          <BookProduct
+            key={bookData.title}
+            bookData={bookData.item[0]}
+            loginStatus={loginStatus}
+          />
         </StyledImageBlockWrap>
       )}
     </StyledHomeContentWrap>

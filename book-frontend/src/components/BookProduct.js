@@ -1,13 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./common/Button";
 
 const BookProduct = ({ bookData, props }) => {
-  const [bookName, setBookName] = useState("");
-  const [bookPrice, setBookPrice] = useState("");
-
+  let date = new Date();
   useEffect(() => {
     const jquery = document.createElement("script");
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -22,16 +20,15 @@ const BookProduct = ({ bookData, props }) => {
   }, []);
 
   const onClickPayment = () => {
-    console.log("실행!");
     const { IMP } = window;
     IMP.init("imp14112312");
     const data = {
       pg: "html5_inicis", // PG사
       pay_method: "card", // 결제수단
-      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+      merchant_uid: `a_${new Date().getTime()}`, // 주문번호
       amount: 100, // 결제금액
       name: bookData.title, // 주문명
-      buyer_name: "홍길동", // 구매자 이름
+      buyer_name: localStorage.getItem("userName"), // 구매자 이름
       buyer_tel: "01012341234", // 구매자 전화번호
       buyer_email: "example@example", // 구매자 이메일
       buyer_addr: "신사동 661-16", // 구매자 주소
@@ -42,14 +39,14 @@ const BookProduct = ({ bookData, props }) => {
       {
         name: data.name,
         amount: data.amount,
-        buyer_name: "홍길동",
+        buyer_name: data.buyer_name,
       },
       function callback(response) {
         if (response.success) {
           data.impUid = response.imp_uid;
           data.merchant_uid = response.merchant_uid;
           data.buyer_name = response.buyer_name;
-          console.log(data.buyer_name);
+          orderDone(data);
         } else {
           alert(`결제 실패 : ${response.error_msg}`);
         }
@@ -57,18 +54,48 @@ const BookProduct = ({ bookData, props }) => {
     );
   };
 
+  const orderDone = async (data) => {
+    const buyerName = data.buyer_name;
+    let buyerDay =
+      date.getFullYear() +
+      "년 " +
+      (date.getMonth() + 1) +
+      "월 " +
+      date.getDate() +
+      "일 " +
+      +date.getHours() +
+      "시 " +
+      date.getMinutes() +
+      "분";
+
+    const orderNumber = data.merchant_uid;
+    let bookName = data.name;
+    let bookPrice = data.amount;
+
+    try {
+      await axios.post("/api/order/input", {
+        buyerDay,
+        orderNumber,
+        buyerName,
+        bookName,
+        bookPrice,
+      });
+      alert("주문 완료");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const navigate = useNavigate();
 
   const onClickShoppingBasket = async (e) => {
     let bookName = bookData.title;
     let bookPrice = bookData.priceStandard;
-
     try {
       await axios.post("/api/basket/input", {
         bookName,
         bookPrice,
       });
-
       navigate("/shoppingBasket");
     } catch (error) {
       console.log(error.response.status);
