@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import bannerImage from "C:/Users/ebs17/bookStore/book-frontend/src/image/slider-img.png";
+import bannerImage from "../../image/slider-img.png";
 
 const StyledBannerWrap = styled.div`
     display: flex;

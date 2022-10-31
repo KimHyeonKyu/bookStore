@@ -6,6 +6,7 @@ import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
 import axios from "axios";
 import CheckBox from "./common/CheckBox";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingBasketContentWrap = styled.div`
   display: flex;
@@ -34,21 +35,27 @@ const StyledTableWrap = styled.div`
   margin-top: 2rem;
   text-align: center;
 `;
-const StyledSelector = styled.select`
-  width: 10rem;
+
+const TotalPriceBlock = styled.div`
+  text-align: right;
+  padding: 0.5rem;
+  margin-right: 3rem;
+  font-size: 2rem;
+  font-weight: 600;
+  border-bottom: 1px solid gray;
 `;
 
-const ShoppingBasketContent = ({ start }) => {
+const ShoppingBasketContent = () => {
   const options = [
     { value: 1, name: 1 },
     { value: 2, name: 2 },
     { value: 3, name: 3 },
   ];
   const [basketList, setBasketList] = useState([]);
-
   const [checkLogin, setCheckLogin] = useState("");
   const [pgTitle, setPgTitle] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [checkItem, setCheckItem] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,14 +82,12 @@ const ShoppingBasketContent = ({ start }) => {
     fetchData();
   }, [checkLogin]);
 
-
-
   useEffect(() => {
-    
     let total = 0;
     basketList.map(
       (basketList) => (
-        (total = total + (basketList.bookPrice)), setTotalPrice(total)
+        (total = total + basketList.bookPrice * basketList.quantity),
+        setTotalPrice(total)
       )
     );
 
@@ -102,7 +107,15 @@ const ShoppingBasketContent = ({ start }) => {
     };
   }, []);
 
-  const onClickPayment = () => {
+  const onClickPayment = async (e) => {
+    let total = 0;
+    basketList.map(
+      (basketList) => (
+        (total = total + basketList.bookPrice * basketList.quantity),
+        setTotalPrice(total)
+      )
+    );
+
     const { IMP } = window;
     IMP.init("imp14112312");
     const data = {
@@ -135,6 +148,18 @@ const ShoppingBasketContent = ({ start }) => {
         }
       }
     );
+  };
+
+  const deleteItem = async (e) => {
+    try {
+      await axios.delete(`/api/basket/deleteItem?_id=${checkItem}`);
+      let response = await axios.get(`/api/basket/output?id=${checkLogin}`);
+
+      setBasketList(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+    console.log(checkItem);
   };
 
   return (
@@ -191,20 +216,32 @@ const ShoppingBasketContent = ({ start }) => {
                 {basketList.map((basketList) => (
                   <tr key={basketList._id}>
                     <td>
-                      <CheckBox />
+                      <CheckBox
+                        basketList={basketList}
+                        setCheckItem={setCheckItem}
+                      />
                     </td>
                     <td>{basketList.bookName}</td>
                     <td>{basketList.bookPrice}</td>
                     <td>
-                      <SelectBox basketList={basketList} options={options}/>
+                      <SelectBox
+                        options={options}
+                        basketList={basketList}
+                        setBasketList={setBasketList}
+                        checkLogin={checkLogin}
+                      />
                     </td>
                     <td>
-                      <Button type="small">삭제</Button>
+                      <Button type="small" onClick={deleteItem}>
+                        삭제
+                      </Button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <TotalPriceBlock>총 가격 : {totalPrice}</TotalPriceBlock>
+            <br></br>
             <Button type="middle" onClick={onClickPayment}>
               구매하기
             </Button>

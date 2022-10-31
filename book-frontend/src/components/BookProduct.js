@@ -65,12 +65,14 @@ const BookProduct = ({ bookData, props }) => {
   const onClickShoppingBasket = async (e) => {
     let bookName = bookData.title;
     let bookPrice = bookData.priceStandard;
+    let quantity = 1;
 
     try {
       axios.post("/api/basket/input", {
         id,
         bookName,
         bookPrice,
+        quantity
       });
 
       navigate("/shoppingBasket");
