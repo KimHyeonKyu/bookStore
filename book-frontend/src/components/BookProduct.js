@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./common/Button";
 
 const BookProduct = ({ bookData, props }) => {
   let date = new Date();
+
+  const [id, setCheckLogin] = useState("");
+
   useEffect(() => {
     const jquery = document.createElement("script");
     jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -88,11 +91,16 @@ const BookProduct = ({ bookData, props }) => {
 
   const navigate = useNavigate();
 
+  axios.get("/api/auth/check").then((response) => {
+    setCheckLogin(response.data._id);
+  });
+
   const onClickShoppingBasket = async (e) => {
     let bookName = bookData.title;
     let bookPrice = bookData.priceStandard;
     try {
-      await axios.post("/api/basket/input", {
+      axios.post("/api/basket/input", {
+        id,
         bookName,
         bookPrice,
       });
@@ -101,6 +109,8 @@ const BookProduct = ({ bookData, props }) => {
       console.log(error.response.status);
     }
   };
+
+  console.log(id);
 
   return (
     <>

@@ -15,6 +15,7 @@ const HomePage = () => {
   });
 
   return (
+    
     <>
       <AuthTemplate>
         <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus} />

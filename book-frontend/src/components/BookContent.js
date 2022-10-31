@@ -30,8 +30,6 @@ const BookContent = ({ categoryId, loginStatus }) => {
   const [bookData, setBookData] = useState(null);
   const [visible, setVisible] = useState("false");
 
-  console.log(loginStatus);
-
   const testClick = (e) => {
     setVisible("true");
   };

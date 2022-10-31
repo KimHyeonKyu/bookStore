@@ -92,7 +92,7 @@ const categories = [
     name: "picturebook",
     text: "그림책",
     id: "48824",
-  },
+  }
 ];
 
 const Header = ({ loginStatus, props }) => {

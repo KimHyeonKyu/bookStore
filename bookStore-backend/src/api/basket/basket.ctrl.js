@@ -3,6 +3,7 @@ import ShoppingBasket from "../../models/shoppingBasket";
 
 export const input = async (ctx) => {
   const schema = Joi.object().keys({
+    id: Joi.string().required(),
     bookName: Joi.string().required(),
     bookPrice: Joi.number().required(),
   });
@@ -13,10 +14,11 @@ export const input = async (ctx) => {
     return;
   }
 
-  const { bookName, bookPrice } = ctx.request.body; // 변수 받아오는것
+  const { id, bookName, bookPrice } = ctx.request.body; // 변수 받아오는것
 
   try {
     const shoppingBasket = new ShoppingBasket({
+      id,
       bookName,
       bookPrice,
     });     // 변수 저장
@@ -32,6 +34,16 @@ export const input = async (ctx) => {
 };
 
 export const output = async (ctx) => {
-    const shoppingBasket = await ShoppingBasket.find().exec();
-    ctx.body = shoppingBasket;
+    const { id } = ctx.query;
+    try{
+      const shoppingBasket = await ShoppingBasket.find({"id": id}).exec();
+      if (!shoppingBasket) {
+        ctx.status = 404;
+        ctx.body = '아이디가 존재하지 않습니다.';
+      }
+      ctx.body = shoppingBasket;
+    } catch (e) {
+      ctx.throw(500, e);
+    }
 };
+

@@ -19,7 +19,7 @@ const ShoppingBasketPage = () => {
         <>
       <AuthTemplate>
         <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
-        <ShoppingBasketContent />        
+          <ShoppingBasketContent />
         <Footer />
       </AuthTemplate>
     </>

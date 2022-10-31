@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MdCheckBox } from "react-icons/md";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import SelectBox from "./common/SelectBox";
 import Button from "./common/Button";
 import axios from "axios";
+import CheckBox from "./common/CheckBox";
 
 const ShoppingBasketContentWrap = styled.div`
   display: flex;
@@ -37,24 +38,104 @@ const StyledSelector = styled.select`
   width: 10rem;
 `;
 
-const ShoppingBasketContent = (props) => {
-  const [checkState, setCheckState] = useState("blank");
+const ShoppingBasketContent = ({ start }) => {
   const options = [
     { value: 1, name: 1 },
     { value: 2, name: 2 },
     { value: 3, name: 3 },
   ];
+  const [basketList, setBasketList] = useState([]);
+
+  const [checkLogin, setCheckLogin] = useState("");
+  const [pgTitle, setPgTitle] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        axios.get("/api/auth/check").then((response) => {
+          setCheckLogin(response.data._id);
+        });
+        if (checkLogin !== "") {
+          let response = await axios.get(`/api/basket/output?id=${checkLogin}`);
+
+          setBasketList(response.data);
+          setPgTitle(
+            response.data[0].bookName +
+              "외 " +
+              (response.data.length - 1) +
+              "권"
+          );
+          return response.data;
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, [checkLogin]);
 
 
-  const changeCheckBox = () => {
-    setCheckState("isFull");
+
+  useEffect(() => {
+    
+    let total = 0;
+    basketList.map(
+      (basketList) => (
+        (total = total + (basketList.bookPrice)), setTotalPrice(total)
+      )
+    );
+
+    return () => {};
+  }, [basketList, totalPrice]);
+
+  useEffect(() => {
+    const jquery = document.createElement("script");
+    jquery.src = "https://code.jquery.com/jquery-1.12.4.min.js";
+    const iamport = document.createElement("script");
+    iamport.src = "https://cdn.iamport.kr/js/iamport.payment-1.1.7.js";
+    document.head.appendChild(jquery);
+    document.head.appendChild(iamport);
+    return () => {
+      document.head.removeChild(jquery);
+      document.head.removeChild(iamport);
+    };
+  }, []);
+
+  const onClickPayment = () => {
+    const { IMP } = window;
+    IMP.init("imp14112312");
+    const data = {
+      pg: "html5_inicis", // PG사
+      pay_method: "card", // 결제수단
+      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+      amount: totalPrice, // 결제금액
+      name: pgTitle, // 주문명
+      buyer_name: "홍길동", // 구매자 이름
+      buyer_tel: "01012341234", // 구매자 전화번호
+      buyer_email: "example@example", // 구매자 이메일
+      buyer_addr: "신사동 661-16", // 구매자 주소
+      buyer_postcode: "06018", // 구매자 우편번호
+    };
+
+    IMP.request_pay(
+      {
+        name: data.name,
+        amount: data.amount,
+        buyer_name: "홍길동",
+      },
+      function callback(response) {
+        if (response.success) {
+          data.impUid = response.imp_uid;
+          data.merchant_uid = response.merchant_uid;
+          data.buyer_name = response.buyer_name;
+          console.log(data.buyer_name);
+        } else {
+          alert(`결제 실패 : ${response.error_msg}`);
+        }
+      }
+    );
   };
-
-  const changeBlankBox = () => {
-    setCheckState("blank");
-  };
-
-  console.log(axios.get("/api/basket/output"));
 
   return (
     <ShoppingBasketContentWrap>
@@ -62,77 +143,73 @@ const ShoppingBasketContent = (props) => {
         <TitleEmphasis>발라딘</TitleEmphasis> 장바구니
       </StyledTitle>
       <StyledTableWrap>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">체크</th>
-              <th scope="col">상품명</th>
-              <th scope="col">가격</th>
-              <th scope="col">수량</th>
-              <th scope="col">삭제</th>
-            </tr>
-          </thead>
-          <tbody className="table-group-divider">
-            <tr>
-              <td>
-                {checkState === "isFull" && (
-                  <MdCheckBox size="32" onClick={changeBlankBox} />
+        {checkLogin === "" && (
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">체크</th>
+                <th scope="col">상품명</th>
+                <th scope="col">가격</th>
+                <th scope="col">수량</th>
+                <th scope="col">삭제</th>
+              </tr>
+            </thead>
+            <tbody className="table-group-divider">
+              <tr>
+                <td>로그인 후 이용 가능</td>
+                <td>로그인 후 이용 가능</td>
+                <td>로그인 후 이용 가능</td>
+                <td>로그인 후 이용 가능</td>
+                <td>로그인 후 이용 가능</td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+
+        {checkLogin !== "" && (
+          <>
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">체크</th>
+                  <th scope="col">상품명</th>
+                  <th scope="col">가격</th>
+                  <th scope="col">수량</th>
+                  <th scope="col">삭제</th>
+                </tr>
+              </thead>
+              <tbody className="table-group-divider">
+                {checkLogin === "" && (
+                  <tr>
+                    <td>로그인 후 이용 가능</td>
+                    <td>로그인 후 이용 가능</td>
+                    <td>로그인 후 이용 가능</td>
+                    <td>로그인 후 이용 가능</td>
+                    <td>로그인 후 이용 가능</td>
+                  </tr>
                 )}
-                {checkState === "blank" && (
-                  <MdCheckBoxOutlineBlank size="32" onClick={changeCheckBox} />
-                )}
-              </td>
-              <td>상품 사진 및 상품명 넣을 곳</td>
-              <td>가격 넣을 곳</td>
-              <td>
-                <SelectBox options={options} />
-              </td>
-              <td><Button type="small">삭제</Button></td>
-            </tr>
-            <tr>
-              <td>1번</td>
-              <td>2번</td>
-              <td>3번</td>
-              <td>4번</td>
-              <td>5번</td>
-            </tr>
-            <tr>
-              <td>1번</td>
-              <td>2번</td>
-              <td>3번</td>
-              <td>4번</td>
-              <td>5번</td>
-            </tr>
-            <tr>
-              <td>1번</td>
-              <td>2번</td>
-              <td>3번</td>
-              <td>4번</td>
-              <td>5번</td>
-            </tr>
-            <tr>
-              <td>1번</td>
-              <td>2번</td>
-              <td>3번</td>
-              <td>4번</td>
-              <td>5번</td>
-            </tr>
-            <tr>
-              <td>1번</td>
-              <td>2번</td>
-              <td>3번</td>
-              <td>4번</td>
-              <td>5번</td>
-            </tr>
-            <tr>
-              <td>1번</td>
-              <td>2번</td>
-              <td>3번</td>
-              <td>4번</td>
-              <td>5번</td>
-            </tr>
-          </tbody>
-        </table>
+                {basketList.map((basketList) => (
+                  <tr key={basketList._id}>
+                    <td>
+                      <CheckBox />
+                    </td>
+                    <td>{basketList.bookName}</td>
+                    <td>{basketList.bookPrice}</td>
+                    <td>
+                      <SelectBox basketList={basketList} options={options}/>
+                    </td>
+                    <td>
+                      <Button type="small">삭제</Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <Button type="middle" onClick={onClickPayment}>
+              구매하기
+            </Button>
+          </>
+        )}
       </StyledTableWrap>
     </ShoppingBasketContentWrap>
   );
