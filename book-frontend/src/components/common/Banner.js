@@ -3,43 +3,42 @@ import styled from "styled-components";
 import bannerImage from "../../image/slider-img.png";
 
 const StyledBannerWrap = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f5f5f5;
-    padding: 2rem;
-  `;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  padding: 2rem;
+`;
 
-  const StyledBannerImage = styled.img`
-    width: 20rem;
-    height: 20rem;
-  `;
+const StyledBannerImage = styled.img`
+  width: 20rem;
+  height: 20rem;
+`;
 
-  const StyledBannerContentWrap = styled.div`
-    text-align: left;
-    margin-right: 3rem;
-  `;
+const StyledBannerContentWrap = styled.div`
+  text-align: left;
+  margin-right: 3rem;
+`;
 
-  const StyledContentTitle = styled.div`
-    font-size: 1.3rem;
-    color: #00ced1;
-    font-weight: 600;
-  `;
+const StyledContentTitle = styled.div`
+  font-size: 1.3rem;
+  color: #00ced1;
+  font-weight: 600;
+`;
 
-  const StyledContentFirst = styled.div`
-    margin-top: 1rem;
-    font-size: 3rem;
-    line-height: 2.8rem;
-  `;
+const StyledContentFirst = styled.div`
+  margin-top: 1rem;
+  font-size: 3rem;
+  line-height: 2.8rem;
+`;
 
-  const StyledContentSecond = styled.div`
-    margin-top: 2rem;
-    font-size: 1rem;
-    color: #6699ff;
-  `;
+const StyledContentSecond = styled.div`
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: #6699ff;
+`;
 
 const Banner = () => {
-  
   return (
     <StyledBannerWrap>
       <StyledBannerContentWrap>

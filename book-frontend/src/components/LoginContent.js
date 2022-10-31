@@ -62,11 +62,13 @@ const LoginContent = () => {
     e.preventDefault();
 
     try {
-      await axios.post("/api/auth/login", {
+      const response = await axios.post("/api/auth/login", {
         id,
         password,
       });
-
+      localStorage.clear();
+      localStorage.setItem("id", response.data.id);
+      localStorage.setItem("userName", response.data.userName);
       alert("로그인 성공");
       navigate("/");
     } catch (error) {
@@ -89,7 +91,10 @@ const LoginContent = () => {
             onChange={changePassword}
           />
           {errorStatus === 401 && (
-            <ErrorMessage errorMessage="아이디와 비밀번호가 일치하지 않습니다." textAlign="center" />
+            <ErrorMessage
+              errorMessage="아이디와 비밀번호가 일치하지 않습니다."
+              textAlign="center"
+            />
           )}
           <Button>로그인</Button>
         </form>

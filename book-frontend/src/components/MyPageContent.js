@@ -1,7 +1,7 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Table from "./common/Table";
+import ProductTable from "./common/ProductTable";
+import axios from "axios";
 
 const StyledMyPageContentWrap = styled.div`
   display: flex;
@@ -61,30 +61,161 @@ const StyledPromoteBoxContent = styled.div`
 `;
 
 const MyPageContent = () => {
+  const [orderData, setOrderData] = useState([]);
+  const userName = localStorage.getItem("userName");
+  let point = null;
+  orderData.map((data) => (point += Number(data.bookPrice)));
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await axios.get(
+          `/api/order/output?userName=${userName}`
+        );
+        setOrderData(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getData();
+  }, [userName]);
+
+  // a
+
   return (
     <StyledMyPageContentWrap>
       <StyledPromoteWrap>
-        <StyledPromoteTitle>...님 안녕하세요!</StyledPromoteTitle>
+        <StyledPromoteTitle>
+          {localStorage.getItem("id")}님 안녕하세요!
+        </StyledPromoteTitle>
         <StyledBoxWrap>
           <StyledPromoteBox>
-            <StyledPromoteBoxTitle>- 멤버십 등급 : ..</StyledPromoteBoxTitle>
-            <StyledPromoteBoxContent>
-              발라딘 멤버십 회원이 되시면 구매 금액의 1~3% 추가 마일리지 및 쿠폰
-              혜택을 받으실 수 있습니다. (단 비국내도서 상품과 함께 주문시에만
-              본 혜택이 적용됩니다.)
-            </StyledPromoteBoxContent>
+            {point === null && (
+              <>
+                <StyledPromoteBoxTitle>
+                  - 멤버십 등급 : ..
+                </StyledPromoteBoxTitle>
+                <StyledPromoteBoxContent>
+                  발라딘 멤버십 회원이 되시면 구매 금액의 1~3% 추가 마일리지 및
+                  쿠폰 혜택을 받으실 수 있습니다. (단 비국내도서 상품과 함께
+                  주문시에만 본 혜택이 적용됩니다.)
+                </StyledPromoteBoxContent>
+              </>
+            )}
+            {point !== null && point <= 500 && (
+              <>
+                <StyledPromoteBoxTitle>
+                  - 멤버십 등급 : 실버
+                </StyledPromoteBoxTitle>
+                <StyledPromoteBoxContent>
+                  <ul>
+                    <li>
+                      1,000원 쿠폰 : '정가제 Free상품' 1천원 이상 포함 2만원
+                      이상 주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      2,000원 쿠폰 :'정가제 Free상품' 2천원 이상 포함 4만원 이상
+                      주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      모바일 전용 2,000원 쿠폰 : 모바일에서 '정가제 Free상품'
+                      2천원 이상 포함 3만원 이상 주문시 사용 가능, 다른 멤버십
+                      쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      주문금액의 1% 마일리지 적립 (최대 '정가제 Free상품'
+                      주문금액 만큼)
+                    </li>
+                    <li>CGV 4천원 영화 할인권 1매</li>
+                  </ul>
+                </StyledPromoteBoxContent>
+              </>
+            )}
+            {point > 500 && point <= 1000 && (
+              <>
+                <StyledPromoteBoxTitle>
+                  - 멤버십 등급 : 골드
+                </StyledPromoteBoxTitle>
+                <StyledPromoteBoxContent>
+                  <ul>
+                    <li>
+                      1,000원 쿠폰 : '정가제 Free상품' 1천원 이상 포함 2만원
+                      이상 주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가{" "}
+                    </li>
+                    <li>
+                      2,000원 쿠폰 :'정가제 Free상품' 2천원 이상 포함 4만원 이상
+                      주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      2,500원 쿠폰 :'정가제 Free상품' 2천 5백원 이상 포함 6만원
+                      이상 주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      모바일 전용 2,000원 쿠폰 : 모바일에서 '정가제 Free상품'
+                      2천원 이상 포함 3만원 이상 주문시 사용 가능, 다른 멤버십
+                      쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      주문금액의 2% 마일리지 적립 (최대 '정가제 Free상품'
+                      주문금액 만큼)
+                    </li>
+                    <li> CGV 4천원 영화 할인권 1매</li>
+                  </ul>
+                </StyledPromoteBoxContent>
+              </>
+            )}
+            {point > 1000 && (
+              <>
+                <StyledPromoteBoxTitle>
+                  - 멤버십 등급 : 플레티넘
+                </StyledPromoteBoxTitle>
+                <StyledPromoteBoxContent>
+                  <ul>
+                    <li>
+                      1,000원 쿠폰 :'정가제 Free상품' 1천원 이상 포함 2만원 이상
+                      주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      2,000원 쿠폰 :'정가제 Free상품' 2천원 이상 포함 4만원 이상
+                      주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가{" "}
+                    </li>
+                    <li>
+                      2,500원 쿠폰 :'정가제 Free상품' 2천 5백원 이상 포함 6만원
+                      이상 주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가{" "}
+                    </li>
+                    <li>
+                      3,000원 쿠폰 : '정가제 Free상품' 3천원 이상 포함 8만원
+                      이상 주문시 사용 가능, 다른 멤버십 쿠폰과 중복 사용 불가{" "}
+                    </li>
+                    <li>
+                      모바일 전용 2,000원 쿠폰 : 모바일에서 '정가제 Free상품'
+                      2천원 이상 포함 3만원 이상 주문시 사용 가능, 다른 멤버십
+                      쿠폰과 중복 사용 불가
+                    </li>
+                    <li>
+                      주문금액의 3% 마일리지 적립 (최대 '정가제 Free상품'
+                      주문금액 만큼)
+                    </li>
+                    <li> CGV 4천원 영화 할인권 1매</li>
+                  </ul>
+                </StyledPromoteBoxContent>
+              </>
+            )}
           </StyledPromoteBox>
           <StyledPromoteBox>
-            <StyledPromoteBoxTitle>- 중고샵, 아직 안써보셨어요?</StyledPromoteBoxTitle>
+            <StyledPromoteBoxTitle>
+              - 중고샵, 아직 안써보셨어요?
+            </StyledPromoteBoxTitle>
             <StyledPromoteBoxContent>
-            9천원에 구입한 신간베스트를 5천원에 다시 판매하는 기적. 발라딘 중고샵! 지금 가입하세요~!
+              9천원에 구입한 신간베스트를 5천원에 다시 판매하는 기적. 발라딘
+              중고샵! 지금 가입하세요~!
             </StyledPromoteBoxContent>
           </StyledPromoteBox>
         </StyledBoxWrap>
       </StyledPromoteWrap>
 
       <StyledTitle>전체 주문 내역</StyledTitle>
-      <Table />
+      <ProductTable orderData={orderData} />
     </StyledMyPageContentWrap>
   );
 };

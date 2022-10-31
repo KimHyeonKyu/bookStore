@@ -97,6 +97,7 @@ const categories = [
 
 const Header = ({ loginStatus, props }) => {
   const logout = () => {
+    localStorage.clear();
     axios.post("/api/auth/logout");
     props.setLoginStatus("");
   };
