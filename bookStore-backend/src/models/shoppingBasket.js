@@ -5,7 +5,8 @@ const { Schema } = mongoose;
 const ShoppingBasketSchema = new Schema({
     id: String,
     bookName: String,
-    bookPrice: Number
+    bookPrice: Number,
+    quantity: Number
 });
 
 const ShoppingBasket = mongoose.model('ShoppingBasket', ShoppingBasketSchema);
