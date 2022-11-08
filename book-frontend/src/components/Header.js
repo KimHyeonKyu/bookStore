@@ -95,11 +95,11 @@ const categories = [
   }
 ];
 
-const Header = ({ loginStatus, props }) => {
+const Header = () => {
+
   const logout = () => {
-    localStorage.clear();
+    localStorage.setItem("logOut", "true");
     axios.post("/api/auth/logout");
-    props.setLoginStatus("");
   };
   const [word, setWord] = useState();
   const searchClick = (e) => {};
@@ -117,10 +117,10 @@ const Header = ({ loginStatus, props }) => {
           onChange={changeSearchWord}
           to={`../search/${word}`}
         />
-        {loginStatus !== 200 && (
+        {!localStorage.getItem("id") && (
           <StyledHeaderMenu to="/login">로그인</StyledHeaderMenu>
         )}
-        {loginStatus === 200 && (
+        {localStorage.getItem("id") && (
           <StyledHeaderMenu onClick={logout}>로그아웃</StyledHeaderMenu>
         )}
         <StyledHeaderMenu to="/join">회원가입</StyledHeaderMenu>

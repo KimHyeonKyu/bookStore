@@ -105,3 +105,18 @@ export const logout = async ctx => {
     ctx.status = 204; // No Content
 };
 
+export const output = async ctx => {
+    const { id } = ctx.query;
+    try{
+      const member = await Member.find({"id": id}).exec();
+      if (!member) {
+        ctx.status = 404;
+        ctx.body = '아이디가 존재하지 않습니다.';
+      }
+      ctx.body = member;
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+};
+
+

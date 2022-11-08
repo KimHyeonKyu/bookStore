@@ -6,8 +6,8 @@ import Button from "./common/Button";
 
 const BookProduct = ({ bookData, props }) => {
   let date = new Date();
-
-  const [id, setCheckLogin] = useState("");
+  
+  const [ id, setCheckLogin ] = useState("");
 
   useEffect(() => {
     const jquery = document.createElement("script");
@@ -22,6 +22,7 @@ const BookProduct = ({ bookData, props }) => {
     };
   }, []);
 
+
   const onClickPayment = () => {
     const { IMP } = window;
     IMP.init("imp14112312");
@@ -29,7 +30,7 @@ const BookProduct = ({ bookData, props }) => {
       pg: "html5_inicis", // PG사
       pay_method: "card", // 결제수단
       merchant_uid: `a_${new Date().getTime()}`, // 주문번호
-      amount: 100, // 결제금액
+      amount: bookData.priceStandard, // 결제금액
       name: bookData.title, // 주문명
       buyer_name: localStorage.getItem("userName"), // 구매자 이름
       buyer_tel: "01012341234", // 구매자 전화번호
@@ -99,21 +100,23 @@ const BookProduct = ({ bookData, props }) => {
     let bookName = bookData.title;
     let bookPrice = bookData.priceStandard;
     let quantity = 1;
+    let checkState = "isFull";
+    let bookImage = bookData.cover;
 
     try {
       axios.post("/api/basket/input", {
         id,
         bookName,
         bookPrice,
-        quantity
+        quantity,
+        checkState,
+        bookImage
       });
       navigate("/shoppingBasket");
     } catch (error) {
       console.log(error.response.status);
     }
   };
-
-  console.log(id);
 
   return (
     <>

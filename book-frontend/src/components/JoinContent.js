@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import loginBackground from "../image/loginBackground.PNG";
 import Button from "./common/Button";
@@ -49,17 +49,21 @@ const StyledAddressWrap = styled.div`
 `;
 
 const JoinContent = () => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [userName, setUserName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [form, setForm] = useState({
+    id: "",
+    password: "",
+    passwordConfirm: "",
+    userName: "",
+    phoneNumber: "",
+    email: "",
+  });
+
   const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
   const [fullAddress, setFullAddress] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [errorStatus, setErrorStatus] = useState("");
 
+  const { id, password, passwordConfirm, userName, phoneNumber, email } = form;
   const isIdValid = id.length >= 1;
   const isPasswordValid = password.length >= 1;
   const isPasswordConfirmValid = passwordConfirm.length >= 1;
@@ -67,62 +71,51 @@ const JoinContent = () => {
   const isPhoneNumberValid = phoneNumber.length >= 1;
   const isAddressValid = address.length >= 1;
   const isEmailValid = email.length >= 1;
+  const isSamePasswordValid = password === passwordConfirm;
+  const totalValid =
+    isIdValid &&
+    isPasswordValid &&
+    isPasswordConfirmValid &&
+    isUserNameValid &&
+    isPhoneNumberValid &&
+    isAddressValid &&
+    isEmailValid &&
+    isSamePasswordValid;
 
-  const changeId = (e) => {
-    console.log(e.target.value);
-    setId(e.target.value);
-  };
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
 
-  const changePassword = (e) => {
-    console.log(e.target.value);
-    setPassword(e.target.value);
-  };
-
-  const changePasswordConfirm = (e) => {
-    console.log(e.target.value);
-    setPasswordConfirm(e.target.value);
-  };
-
-  const changeUserName = (e) => {
-    console.log(e.target.value);
-    setUserName(e.target.value);
-  };
-
-  const changePhoneNumber = (e) => {
-    console.log(e.target.value);
-    setPhoneNumber(e.target.value);
+    setForm({ ...form, [name]: value });
+    console.log(form);
   };
 
   const mergeTotalAddress = (e) => {
-    console.log(e.target.value);
-    setAddress(zipCode + " " + fullAddress + " " + e.target.value);
-  };
-
-  const changeEmail = (e) => {
-    console.log(e.target.value);
-    setEmail(e.target.value);
+    setAddress(zipCode + "/" + fullAddress + "/" + e.target.value);
   };
 
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      await axios.post("/api/auth/register", {
-        id,
-        password,
-        userName,
-        phoneNumber,
-        address,
-        email,
-      });
-
-      alert("회원가입 성공");
-      navigate("/");
-    } catch (error) {
-      console.log(error.response.status);
-      setErrorStatus(error.response.status);
+    if(totalValid && errorStatus !== 409){
+      try {
+        await axios.post("/api/auth/register", {
+          id,
+          password,
+          userName,
+          phoneNumber,
+          address,
+          email,
+        });
+  
+        alert("회원가입 성공");
+        navigate("/");
+      } catch (error) {
+        console.log(error.response.status);
+        setErrorStatus(error.response.status);
+      }
+    }else{
+      alert("오류메세지를 확인해 주세요.");
     }
   };
 
@@ -164,7 +157,7 @@ const JoinContent = () => {
             title="아이디"
             placeholder="아이디"
             value={id}
-            onChange={changeId}
+            onChange={handleOnChange}
           />
           {!isIdValid && <ErrorMessage errorMessage="아이디를 입력해 주세요" />}
           {errorStatus === 409 && (
@@ -176,18 +169,18 @@ const JoinContent = () => {
             title="비밀번호"
             placeholder="비밀번호"
             value={password}
-            onChange={changePassword}
+            onChange={handleOnChange}
           />
           {!isPasswordValid && (
             <ErrorMessage errorMessage="패스워드를 입력해 주세요" />
           )}
           <InputBox
-            name="password"
+            name="passwordConfirm"
             type="password"
             title="비밀번호 확인"
             placeholder="비밀번호 확인"
             value={passwordConfirm}
-            onChange={changePasswordConfirm}
+            onChange={handleOnChange}
           />
           {!isPasswordConfirmValid && (
             <ErrorMessage errorMessage="패스워드를 입력해 주세요" />
@@ -200,7 +193,7 @@ const JoinContent = () => {
             title="성함"
             placeholder="성함"
             value={userName}
-            onChange={changeUserName}
+            onChange={handleOnChange}
           />
           {!isUserNameValid && (
             <ErrorMessage errorMessage="이름을 입력해 주세요" />
@@ -210,7 +203,7 @@ const JoinContent = () => {
             title="연락처"
             placeholder="연락처(-빼고 입력)"
             value={phoneNumber}
-            onChange={changePhoneNumber}
+            onChange={handleOnChange}
           />
           {!isPhoneNumberValid && (
             <ErrorMessage errorMessage="연락처를 입력해 주세요" />
@@ -221,6 +214,7 @@ const JoinContent = () => {
             <div className="row g-3">
               <div className="col-auto">
                 <InputText
+                  name="zipCode"
                   type="address"
                   className="form-control"
                   id="inputPassword2"
@@ -235,13 +229,14 @@ const JoinContent = () => {
               </div>
             </div>
             <InputText
-              name="subAddress"
+              name="fullAddress"
               className="form-control"
               placeholder="주소"
               type="address"
               inputValue={fullAddress}
             ></InputText>
             <InputText
+              name="address"
               className="form-control"
               placeholder="상세주소"
               type="address"
@@ -256,7 +251,7 @@ const JoinContent = () => {
             title="이메일"
             placeholder="이메일을 입력하세요"
             value={email}
-            onChange={changeEmail}
+            onChange={handleOnChange}
           />
           {!isEmailValid && (
             <ErrorMessage errorMessage="이메일을 입력해 주세요" />

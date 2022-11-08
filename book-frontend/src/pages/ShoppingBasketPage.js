@@ -1,29 +1,30 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import AuthTemplate from '../components/common/AuthTemplate';
-
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import ShoppingBasketContent from '../components/ShoppingBasketContent';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthTemplate from "../components/common/AuthTemplate";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import ShoppingBasketContent from "../components/ShoppingBasketContent";
 
 const ShoppingBasketPage = () => {
-    
-  const [loginStatus, setLoginStatus] = useState();
-
-  axios.get("/api/auth/check").then((response) => {
-    setLoginStatus(response.status);
-  });
-
-
-    return (
-        <>
+  const navigator = useNavigate();
+  const logOut = localStorage.getItem("logOut");
+  
+  useEffect(()=> {
+    if( logOut === "true"){
+      localStorage.clear();
+      navigator("/");
+    }
+  }, [logOut])
+ 
+  return (
+    <>
       <AuthTemplate>
-        <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
-          <ShoppingBasketContent />
+        <Header />
+        <ShoppingBasketContent />
         <Footer />
       </AuthTemplate>
     </>
-    );
+  );
 };
 
 export default ShoppingBasketPage;

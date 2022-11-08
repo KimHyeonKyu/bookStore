@@ -7,16 +7,14 @@ const StyledInputBoxWrap = styled.div`
   font-size: 1.7rem;
 `;
 
-
-
-const InputBox = ({ type, title, errorMessage, placeholder, value, onChange}) => {
-
+const InputBox = ({ name, type, title, placeholder, value, onChange }) => {
   return (
     <StyledInputBoxWrap>
       <div className="form-group">
         <label>{title}</label>
         {type !== "address" && (
           <InputText
+            name={name}
             type={type}
             value={value}
             onChange={onChange}
@@ -24,8 +22,6 @@ const InputBox = ({ type, title, errorMessage, placeholder, value, onChange}) =>
             placeholder={placeholder}
           ></InputText>
         )}
-
-        
       </div>
     </StyledInputBoxWrap>
   );
