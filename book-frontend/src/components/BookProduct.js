@@ -92,6 +92,7 @@ const BookProduct = ({ bookData, props }) => {
 
   axios.get("/api/auth/check").then((response) => {
     setCheckLogin(response.data._id);
+    console.log(response.data._id);
   });
 
   const onClickShoppingBasket = async (e) => {
@@ -104,7 +105,7 @@ const BookProduct = ({ bookData, props }) => {
         id,
         bookName,
         bookPrice,
-        quantity
+        quantity,
       });
       navigate("/shoppingBasket");
     } catch (error) {
