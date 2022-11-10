@@ -35,19 +35,22 @@ const Table = ({
   };
 
   const handlePageWrite = () => {
-    if(localStorage.getItem("id")){
+    if (localStorage.getItem("id")) {
       handleWrite();
     } else {
       alert("로그인 후 이용해 주세요.");
     }
-    
   };
   const handlePageRead = (e) => {
     handleRead(e);
   };
 
   const handleDeleteItem = (e) => {
-    handleDelete(e);
+    if (localStorage.getItem("id")) {
+      handleDelete(e);
+    } else {
+      alert("로그인 후 이용해 주세요.");
+    }
   };
 
   return (

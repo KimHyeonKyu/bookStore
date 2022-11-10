@@ -6,8 +6,7 @@ const StyledInputBoxWrap = styled.div`
   font-size: 1.7rem;
 `;
 
-const TextArea = ({
-    ref,
+const TextArea = React.forwardRef(({
     name,
     type,
     rows,
@@ -15,7 +14,7 @@ const TextArea = ({
     onChange,
     readOnly,
     title,
-}) => {
+}, ref) => {
   return (
     <StyledInputBoxWrap>
     <label>{title}</label>
@@ -35,6 +34,6 @@ const TextArea = ({
     </div>
     </StyledInputBoxWrap>
   );
-};
+});
 
 export default TextArea;

@@ -77,12 +77,10 @@ const CustomerInquiryContent = () => {
   useEffect(() => {
     axios.get(`/api/board/output`).then((response) => {
       setState({ ...state, totalItemsCount: response.data.length });
-      console.log(state.totalItemsCount);
     });
     axios
       .get(`/api/board/outputPaging?page=${state.activePage}`)
       .then((response) => {
-        console.log(response.data);
         setBoardList(response.data);
       });
   }, [state.activePage]);

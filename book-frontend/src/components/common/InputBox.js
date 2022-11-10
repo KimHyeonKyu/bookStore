@@ -7,8 +7,8 @@ const StyledInputBoxWrap = styled.div`
   font-size: 1.7rem;
 `;
 
-const InputBox = ({ ref, name, type, title, placeholder, value, onChange, readOnly 
-  }) => {
+const InputBox = React.forwardRef(({ name, type, title, placeholder, value, onChange, readOnly 
+  }, ref) => {
   return (
     <StyledInputBoxWrap>
       <div className="form-group">
@@ -28,6 +28,6 @@ const InputBox = ({ ref, name, type, title, placeholder, value, onChange, readOn
       </div>
     </StyledInputBoxWrap>
   );
-};
+});
 
 export default InputBox;
