@@ -64,7 +64,7 @@ const MyPageContent = () => {
   const [orderData, setOrderData] = useState([]);
   const userName = localStorage.getItem("userName");
   let point = null;
-  orderData.map((data) => (point += (Number(data.bookPrice) / 100)));
+  orderData.map((data) => (point += Number(data.bookPrice) / 100));
 
   useEffect(() => {
     const getData = async () => {
@@ -73,12 +73,6 @@ const MyPageContent = () => {
           `/api/order/output?userName=${userName}`
         );
         setOrderData(response.data);
-
-        console.log(userName);
-        axios.post("/api/membership/input", {
-          userName,
-          point
-        });
       } catch (e) {
         console.log(e);
       }

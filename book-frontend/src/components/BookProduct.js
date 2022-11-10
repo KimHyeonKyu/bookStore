@@ -6,8 +6,8 @@ import Button from "./common/Button";
 
 const BookProduct = ({ bookData }) => {
   let date = new Date();
-  
-  const [ id, setCheckLogin ] = useState("");
+
+  const [id, setCheckLogin] = useState("");
 
   useEffect(() => {
     const jquery = document.createElement("script");
@@ -21,7 +21,6 @@ const BookProduct = ({ bookData }) => {
       document.head.removeChild(iamport);
     };
   }, []);
-
 
   const onClickPayment = () => {
     const { IMP } = window;
@@ -94,7 +93,6 @@ const BookProduct = ({ bookData }) => {
 
   axios.get("/api/auth/check").then((response) => {
     setCheckLogin(response.data._id);
-    console.log(response.data._id);
   });
 
   const onClickShoppingBasket = async (e) => {
@@ -111,7 +109,7 @@ const BookProduct = ({ bookData }) => {
         bookPrice,
         quantity,
         checkState,
-        bookImage
+        bookImage,
       });
       navigate("/shoppingBasket");
     } catch (error) {

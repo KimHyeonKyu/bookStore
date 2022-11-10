@@ -66,7 +66,6 @@ const BoardRead = ({ handleMain, _id }) => {
       subject: inputE1.current.value,
       content: inputE2.current.value,
     });
-    console.log(inputE1.current.value);
   };
 
   const onChange = (e) => {
