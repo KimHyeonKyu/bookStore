@@ -40,28 +40,28 @@ export const input = async (ctx) => {
 };
 
 export const output = async (ctx) => {
-    const { id } = ctx.query;
-    try{
-      const shoppingBasket = await ShoppingBasket.find({"id": id}).exec();
-      if (!shoppingBasket) {
-        ctx.status = 404;
-        ctx.body = '아이디가 존재하지 않습니다.';
-      }
-      ctx.body = shoppingBasket;
-    } catch (e) {
-      ctx.throw(500, e);
+  const { id } = ctx.query;
+  try {
+    const shoppingBasket = await ShoppingBasket.find({ id: id }).exec();
+    if (!shoppingBasket) {
+      ctx.status = 404;
+      ctx.body = "아이디가 존재하지 않습니다.";
     }
+    ctx.body = shoppingBasket;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
 };
 
 export const deleteItem = async (ctx) => {
   const { _id } = ctx.query;
-  try{
-    const shoppingBasket = await ShoppingBasket.deleteOne({"_id": _id}).exec();
-      if (!shoppingBasket) {
-        ctx.status = 404;
-        ctx.body = '아이디가 존재하지 않습니다.';
-      }
-      ctx.body = shoppingBasket;
+  try {
+    const shoppingBasket = await ShoppingBasket.deleteOne({ _id: _id }).exec();
+    if (!shoppingBasket) {
+      ctx.status = 404;
+      ctx.body = "아이디가 존재하지 않습니다.";
+    }
+    ctx.body = shoppingBasket;
   } catch (e) {
     ctx.throw(500, e);
   }
@@ -83,14 +83,17 @@ export const deleteItemList = async (ctx) => {
 
 export const updateItem = async (ctx) => {
   const { _id, quantity } = ctx.query;
-  try{
-    const shoppingBasket = await ShoppingBasket.updateOne({_id: _id}, {$set: {quantity: quantity}});
-    if(!shoppingBasket) {
+  try {
+    const shoppingBasket = await ShoppingBasket.updateOne(
+      { _id: _id },
+      { $set: { quantity: quantity } }
+    );
+    if (!shoppingBasket) {
       ctx.status = 404;
-      ctx.body = "아이디 및 수량이 존재하지 않습니다."
+      ctx.body = "아이디 및 수량이 존재하지 않습니다.";
     }
     ctx.body = shoppingBasket;
-  } catch(e) {
+  } catch (e) {
     ctx.throw(500, e);
   }
 };

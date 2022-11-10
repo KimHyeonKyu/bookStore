@@ -1,5 +1,6 @@
-import React from "react";
 import styled from "styled-components";
+import Button from "./Button";
+import PagingMoudle from "./PagingMoudle";
 
 const StyledTableWrap = styled.div`
   font-size: 1.5rem;
@@ -7,73 +8,126 @@ const StyledTableWrap = styled.div`
   text-align: center;
 `;
 
-const ProductTable = () => {
+const ButtonWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.2rem;
+`;
+
+const StyledTr = styled.tr`
+  vertical-align: middle;
+`;
+
+const Table = ({
+  boardList,
+  onPageChange,
+  activePage,
+  itemsCountPerPage,
+  totalItemsCount,
+  pageRangeDisplayed,
+  handleWrite,
+  handleRead,
+  handleDelete,
+}) => {
+  const handlePageChange = (pageNumber) => {
+    onPageChange(pageNumber);
+  };
+
+  const handlePageWrite = () => {
+    handleWrite();
+  };
+  const handlePageRead = (e) => {
+    handleRead(e);
+  };
+
+  const handleDeleteItem = (e) => {
+    handleDelete(e);
+  };
+
   return (
     <StyledTableWrap>
       <table className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">주문일</th>
-            <th scope="col">주문번호</th>
-            <th scope="col">수령인</th>
-            <th scope="col">주문상품</th>
-            <th scope="col">가격</th>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">내용</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+            <th scope="col">보기/삭제</th>
           </tr>
         </thead>
         <tbody className="table-group-divider">
-          <tr>
-            <td>1번</td>
-            <td>2번</td>
-            <td>3번</td>
-            <td>4번</td>
-            <td>5번</td>
-          </tr>
-          <tr>
-            <td>1번</td>
-            <td>2번</td>
-            <td>3번</td>
-            <td>4번</td>
-            <td>5번</td>
-          </tr>
-          <tr>
-            <td>1번</td>
-            <td>2번</td>
-            <td>3번</td>
-            <td>4번</td>
-            <td>5번</td>
-          </tr>
-          <tr>
-            <td>1번</td>
-            <td>2번</td>
-            <td>3번</td>
-            <td>4번</td>
-            <td>5번</td>
-          </tr>
-          <tr>
-            <td>1번</td>
-            <td>2번</td>
-            <td>3번</td>
-            <td>4번</td>
-            <td>5번</td>
-          </tr>
-          <tr>
-            <td>1번</td>
-            <td>2번</td>
-            <td>3번</td>
-            <td>4번</td>
-            <td>5번</td>
-          </tr>
-          <tr>
-            <td>1번</td>
-            <td>2번</td>
-            <td>3번</td>
-            <td>4번</td>
-            <td>5번</td>
-          </tr>
+          {activePage &&
+            boardList.map((data, index) => (
+              <StyledTr key={data._id}>
+                <td>{(activePage - 1) * 5 + index + 1}</td>
+                <td>{data.subject}</td>
+                <td>{data.content}</td>
+                <td>{data.username}</td>
+                <td>{data.datetime}</td>
+                <td>
+                  <ButtonWrap>
+                    <Button
+                      type="small"
+                      data={data._id}
+                      onClick={handlePageRead}
+                    >
+                      보기
+                    </Button>
+                    <Button
+                      data={data._id}
+                      type="small"
+                      onClick={handleDeleteItem}
+                    >
+                      삭제
+                    </Button>
+                  </ButtonWrap>
+                </td>
+              </StyledTr>
+            ))}
+          {!activePage &&
+            boardList.map((data, index) => (
+              <StyledTr key={data._id}>
+                <td>{index + 1}</td>
+                <td>{data.subject}</td>
+                <td>{data.content}</td>
+                <td>{data.username}</td>
+                <td>{data.datetime}</td>
+                <td>
+                  <ButtonWrap>
+                    <Button
+                      type="small"
+                      data={data._id}
+                      onClick={handlePageRead}
+                    >
+                      보기
+                    </Button>
+                    <Button
+                      data={data._id}
+                      type="small"
+                      onClick={handleDeleteItem}
+                    >
+                      삭제
+                    </Button>
+                  </ButtonWrap>
+                </td>
+              </StyledTr>
+            ))}
         </tbody>
       </table>
+      <PagingMoudle
+        onPageChange={handlePageChange}
+        activePage={activePage}
+        itemsCountPerPage={itemsCountPerPage}
+        totalItemsCount={totalItemsCount}
+        pageRangeDisplayed={pageRangeDisplayed}
+      />
+      <Button type="middle" variant="danger" onClick={handlePageWrite}>
+        작성
+      </Button>
     </StyledTableWrap>
   );
 };
-
-export default ProductTable;
+export default Table;

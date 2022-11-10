@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import loginBackground from "../image/loginBackground.PNG";
 import Button from "./common/Button";
@@ -48,6 +48,10 @@ const StyledAddressWrap = styled.div`
   margin-top: 1rem;
 `;
 
+const ButtonWrap = styled.div`
+  margin-top: 2rem;
+`;
+
 const JoinContent = () => {
   const [form, setForm] = useState({
     id: "",
@@ -84,9 +88,8 @@ const JoinContent = () => {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-
     setForm({ ...form, [name]: value });
-    console.log(form);
+    setErrorStatus("");
   };
 
   const mergeTotalAddress = (e) => {
@@ -97,7 +100,8 @@ const JoinContent = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if(totalValid && errorStatus !== 409){
+    console.log(errorStatus);
+    if (totalValid === true && errorStatus !== 409) {
       try {
         await axios.post("/api/auth/register", {
           id,
@@ -107,12 +111,12 @@ const JoinContent = () => {
           address,
           email,
         });
-  
+
         alert("회원가입 성공");
         navigate("/");
       } catch (error) {
-        console.log(error.response.status);
         setErrorStatus(error.response.status);
+        alert("오류메세지를 확인해 주세요.");
       }
     }else{
       alert("오류메세지를 확인해 주세요.");
@@ -256,7 +260,9 @@ const JoinContent = () => {
           {!isEmailValid && (
             <ErrorMessage errorMessage="이메일을 입력해 주세요" />
           )}
-          <Button type="submit">Submit</Button>
+          <ButtonWrap>
+            <Button type="submit">Submit</Button>
+          </ButtonWrap>
         </form>
       </StyledContentWrap>
     </StyledJoinContentWrap>

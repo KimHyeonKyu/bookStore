@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./common/Button";
 
-const BookProduct = ({ bookData, props }) => {
+const BookProduct = ({ bookData }) => {
   let date = new Date();
   
   const [ id, setCheckLogin ] = useState("");
@@ -94,6 +94,7 @@ const BookProduct = ({ bookData, props }) => {
 
   axios.get("/api/auth/check").then((response) => {
     setCheckLogin(response.data._id);
+    console.log(response.data._id);
   });
 
   const onClickShoppingBasket = async (e) => {

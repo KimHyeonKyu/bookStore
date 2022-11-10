@@ -8,13 +8,15 @@ const StyledInputTextWrap = styled.div`
 `;
 
 const InputText = ({
+  ref,
   name,
   type,
   placeholder,
   inputValue,
   value,
   onChange,
-  onMouseMove
+  onMouseMove,
+  readOnly
 }) => {
   return (
     <StyledInputTextWrap>
@@ -29,14 +31,17 @@ const InputText = ({
           onBlur={onMouseMove}
         ></input>
       )}
-      {type !== "address" && (
+      
+      {type !== "address" &&  (
         <input
+          ref={ref}
           name={name}
           type={type}
           className="form-control form-control-lg"
           placeholder={placeholder}
           defaultValue={value}
           onChange={onChange}
+          readOnly={readOnly}
         ></input>
       )}
     </StyledInputTextWrap>

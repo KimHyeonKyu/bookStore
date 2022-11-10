@@ -11,7 +11,6 @@ const StyledButton = styled.button`
   color: aliceblue;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 1rem;
 
   &:hover {
     background: pink;
@@ -22,7 +21,9 @@ const StyledButton = styled.button`
       width: 6rem;
       height: 2rem;
       font-size: 1.2rem;
-      margin: 0;
+      & + & {
+        margin: 0.5rem;
+      }
     `}
   ${(props) =>
     props.type === "middle" &&
@@ -30,7 +31,6 @@ const StyledButton = styled.button`
       width: 10rem;
       height: 3rem;
       font-size: 1.5rem;
-      margin: 0;
       & + & {
         margin-left: 3rem;
         margin-right: 3rem;
@@ -39,7 +39,7 @@ const StyledButton = styled.button`
 `;
 
 const Button = ({
-  children,
+  data, children,
   type,
   onClick,
   basketPart,
@@ -68,7 +68,7 @@ const Button = ({
   return (
     <>
       {!status && (
-        <StyledButton type={type} onClick={onClick}>
+        <StyledButton value={data} type={type} onClick={onClick}>
           {children}
         </StyledButton>
       )}

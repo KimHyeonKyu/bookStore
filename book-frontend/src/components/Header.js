@@ -5,6 +5,27 @@ import styled from "styled-components";
 import logo from "../image/logo.png";
 import SearchForm from "./common/SearchForm";
 
+const StyledHomeContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
+  letter-spacing: 1px;
+`;
+
+const StyledTitle = styled.div`
+  font-size: 1.5rem;
+  font-color: #6699ff;
+  font-weight: 800;
+  width: 100%;
+  border-bottom: 2px solid #666699;
+`;
+
+const StyledImageBlockWrap = styled.div`
+  diplay: flex;
+  width: 1600px;
+  margin: 0 auto;
+`;
+
 const StyledHeaderWrap = styled.div`
   margin: 0;
   padding: 0;
@@ -92,7 +113,7 @@ const categories = [
     name: "picturebook",
     text: "그림책",
     id: "48824",
-  }
+  },
 ];
 
 const Header = () => {
@@ -102,7 +123,7 @@ const Header = () => {
     axios.post("/api/auth/logout");
   };
   const [word, setWord] = useState();
-  const searchClick = (e) => {};
+
   const changeSearchWord = (e) => {
     setWord(e.target.value);
   };
@@ -112,10 +133,11 @@ const Header = () => {
       <StyledHeader>
         <StyledLogo></StyledLogo>
         <StyledHeaderTitle to="/">발라딘</StyledHeaderTitle>
+
         <SearchForm
-          onClick={searchClick}
           onChange={changeSearchWord}
           to={`../search/${word}`}
+          word={word}
         />
         {!localStorage.getItem("id") && (
           <StyledHeaderMenu to="/login">로그인</StyledHeaderMenu>

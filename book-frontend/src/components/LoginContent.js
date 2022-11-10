@@ -43,6 +43,10 @@ const StyledLoginBoxTitle = styled.div`
   margin-bottom: 2rem;
 `;
 
+const ButtonWrap = styled.div`
+  margin-top: 2rem;
+`;
+
 const LoginContent = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -96,7 +100,9 @@ const LoginContent = () => {
               textAlign="center"
             />
           )}
-          <Button>로그인</Button>
+          <ButtonWrap>
+            <Button>로그인</Button>
+          </ButtonWrap>
         </form>
       </StyledLoginBox>
     </StyledLoginContentWrap>

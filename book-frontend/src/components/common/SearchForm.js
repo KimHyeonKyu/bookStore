@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledSerchFormWrap = styled.div`
@@ -27,19 +27,25 @@ const StyledImage = styled.img`
 
 const LinkLink = styled(Link)``;
 
-const SearchForm = ({ onClick, onChange, to }) => {
+const SearchForm = ({ onChange, to, word }) => {
+  const navigate = useNavigate();
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      navigate(`/search/${word}`);
+    }
+  };
+
   return (
     <StyledSerchFormWrap>
       <StyledInput
         type="text"
         placeholder="검색어 입력"
         onChange={onChange}
+        onKeyPress={handleKeyPress}
       ></StyledInput>
       <LinkLink to={to}>
-        <StyledImage
-          onClick={onClick}
-          src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"
-        ></StyledImage>
+        <StyledImage src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></StyledImage>
       </LinkLink>
     </StyledSerchFormWrap>
   );
