@@ -58,7 +58,12 @@ const CustomerInquiryContent = () => {
 
   const handleRead = (e) => {
     const isBoardState = "R";
-    setState({ ...state, isBoardState: isBoardState, _id: e.target.value });
+    setState({
+      ...state,
+      activePage: 1,
+      isBoardState: isBoardState,
+      _id: e.target.value,
+    });
   };
 
   const handlePageChange = (pageNumber) => {
