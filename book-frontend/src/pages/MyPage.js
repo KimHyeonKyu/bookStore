@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthTemplate from "../components/common/AuthTemplate";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import MyPageContent from "../components/MyPageContent";
-import axios from "axios";
 
 const MyPage = () => {
-  const [loginStatus, setLoginStatus] = useState();
 
-  axios.get("/api/auth/check").then((response) => {
-    setLoginStatus(response.status);
-  });
+  const navigator = useNavigate();
+  const logOut = localStorage.getItem("logOut");
+  
+  useEffect(()=> {
+    if( logOut === "true"){
+      localStorage.clear();
+      navigator("/");
+    }
+  }, [logOut])
+ 
   return (
     <AuthTemplate>
-      <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+      <Header />
       <MyPageContent />
       <Footer />
     </AuthTemplate>

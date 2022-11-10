@@ -1,20 +1,24 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthTemplate from "../components/common/AuthTemplate";
 import CustomerInquiryContent from "../components/CustomerInquiryContent";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 const CustomerInquiryPage = () => {
-  const [loginStatus, setLoginStatus] = useState();
-
-  axios.get("/api/auth/check").then((response) => {
-    setLoginStatus(response.status);
-  });
-
+  const navigator = useNavigate();
+  const logOut = localStorage.getItem("logOut");
+  
+  useEffect(()=> {
+    if( logOut === "true"){
+      localStorage.clear();
+      navigator("/");
+    }
+  }, [logOut])
+ 
   return (
     <AuthTemplate>
-      <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
+      <Header />
       <CustomerInquiryContent />
       <Footer />
     </AuthTemplate>
@@ -22,3 +26,4 @@ const CustomerInquiryPage = () => {
 };
 
 export default CustomerInquiryPage;
+

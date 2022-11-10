@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import JoinPage from "./pages/JoinPage";
 import LoginPage from "./pages/LoginPage";
 import MyPage from "./pages/MyPage";
+import OrderProcessPage from "./pages/OrderProcessPage";
 import ShoppingBasketPage from "./pages/ShoppingBasketPage";
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
       <Route path="/category/:categoryId" element={<BookPage />} />
       <Route path="/shoppingBasket" element={<ShoppingBasketPage />} />
       <Route path="/search/:query" element={<BookPage />} />
+      <Route path="/orderProcess" element={<OrderProcessPage />} />
     </Routes>
   );
 };

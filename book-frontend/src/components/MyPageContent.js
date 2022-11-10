@@ -64,7 +64,7 @@ const MyPageContent = () => {
   const [orderData, setOrderData] = useState([]);
   const userName = localStorage.getItem("userName");
   let point = null;
-  orderData.map((data) => (point += Number(data.bookPrice)));
+  orderData.map((data) => (point += (Number(data.bookPrice) / 100)));
 
   useEffect(() => {
     const getData = async () => {
@@ -73,14 +73,18 @@ const MyPageContent = () => {
           `/api/order/output?userName=${userName}`
         );
         setOrderData(response.data);
+
+        console.log(userName);
+        axios.post("/api/membership/input", {
+          userName,
+          point
+        });
       } catch (e) {
         console.log(e);
       }
     };
     getData();
   }, [userName]);
-
-  // a
 
   return (
     <StyledMyPageContentWrap>
@@ -102,7 +106,7 @@ const MyPageContent = () => {
                 </StyledPromoteBoxContent>
               </>
             )}
-            {point !== null && point <= 500 && (
+            {point !== null && point < 500 && (
               <>
                 <StyledPromoteBoxTitle>
                   - 멤버십 등급 : 실버
@@ -131,7 +135,7 @@ const MyPageContent = () => {
                 </StyledPromoteBoxContent>
               </>
             )}
-            {point > 500 && point <= 1000 && (
+            {point > 500 && point < 1000 && (
               <>
                 <StyledPromoteBoxTitle>
                   - 멤버십 등급 : 골드

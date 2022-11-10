@@ -1,28 +1,31 @@
-import React, { useState } from "react";
 import AuthTemplate from "../components/common/AuthTemplate";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import BookContent from "../components/BookContent";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BookSearch from "../components/BookSearch";
-import axios from "axios";
+import { useEffect } from "react";
 
 const BookPage = () => {
   const params = useParams();
   const categoryId = params.categoryId;
   const query = params.query;
 
-  const [loginStatus, setLoginStatus] = useState("");
-
-  axios.get("/api/auth/check").then((response) => {
-    setLoginStatus(response.status);
-  });
-
+  const navigator = useNavigate();
+  const logOut = localStorage.getItem("logOut");
+  
+  useEffect(()=> {
+    if( logOut === "true"){
+      navigator("/");
+      localStorage.clear();
+    }
+  }, [logOut])
+ 
   return (
     <>
       <AuthTemplate>
-      <Header loginStatus={loginStatus} setLoginStatus={setLoginStatus} />
-        {categoryId && <BookContent categoryId={categoryId} loginStatus={loginStatus}/>}
+        <Header />
+        {categoryId && <BookContent categoryId={categoryId} />}
         {query && <BookSearch query={query} />}
         <Footer />
       </AuthTemplate>

@@ -3,8 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import LoginContent from "../components/LoginContent";
 
-const LoginPage = (props) => {
-  
+const LoginPage = () => {
   return (
     <>
       <AuthTemplate>

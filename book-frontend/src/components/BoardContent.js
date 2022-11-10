@@ -1,6 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Button from "./common/Button";
 import axios from "axios";
+import styled from "styled-components";
+import InputBox from "./common/InputBox";
+import TextArea from "./common/TextArea";
+
+const BoardReadWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+`;
+const ContentWrap = styled.div`
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+`;
+const ButtonWrap = styled.div`
+  text-align: center;
+`;
 
 const BoardContent = ({ handleMain }) => {
   let nowDate = new Date();
@@ -41,25 +58,34 @@ const BoardContent = ({ handleMain }) => {
   }, [datetime]);
   return (
     <>
-      <label>제목</label>
+      <BoardReadWrap>
+        <ContentWrap>작성자:{localStorage.getItem("userName")}</ContentWrap>
 
-      <input name="subject" value={subject} type="text" onChange={onChange} />
+        <InputBox
+          name="subject"
+          type="readOnly"
+          value={subject}
+          onChange={onChange}
+          title="제목"
+        />
 
-      <label>작성자: {localStorage.getItem("userName")}</label>
-
-      <label>내용</label>
-
-      <textarea
-        name="content"
-        value={content}
-        type="textarea"
-        rows="10"
-        onChange={onChange}
-      />
-
-      <Button type="small" data={nowDate.toLocaleString()} onClick={boardInput}>
-        등록
-      </Button>
+        <TextArea
+          name="content"
+          type="readOnly"
+          rows="10"
+          value={content}
+          onChange={onChange}
+          title="내용"
+        />
+      </BoardReadWrap>
+      <ButtonWrap>
+        <Button
+          data={nowDate.toLocaleString()}
+          onClick={boardInput}
+        >
+          등록
+        </Button>
+      </ButtonWrap>
     </>
   );
 };

@@ -1,13 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthTemplate from "../components/common/AuthTemplate";
-import Banner from "../components/common/Banner";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import HomeContent from "../components/HomeContent";
+import OrderProcessContent from "../components/OrderProcessContent";
 
-const HomePage = () => {
+const OrderProcessPage = () => {
   const navigator = useNavigate();
   const logOut = localStorage.getItem("logOut");
 
@@ -22,12 +20,11 @@ const HomePage = () => {
     <>
       <AuthTemplate>
         <Header />
-        <Banner />
-        <HomeContent />
+        <OrderProcessContent />
         <Footer />
       </AuthTemplate>
     </>
   );
 };
 
-export default HomePage;
+export default OrderProcessPage;

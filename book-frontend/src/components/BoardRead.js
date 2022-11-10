@@ -2,16 +2,29 @@ import React, { useEffect, useState, useRef } from "react";
 import Button from "./common/Button";
 import axios from "axios";
 import styled from "styled-components";
+import InputText from "./common/InputText";
+import TextArea from "./common/TextArea";
+import InputBox from "./common/InputBox";
 
 const BoardReadWrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
 `;
+const TitleWrap = styled.div`
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+`;
+const ContentWrap = styled.div`
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+`;
 const ButtonWrap = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 `;
 const ButtonBlock = styled.div`
   margin-left: 1rem;
@@ -84,43 +97,41 @@ const BoardRead = ({ handleMain, _id }) => {
 
   return (
     <BoardReadWrap>
-      <label>제목</label>
+      <ContentWrap>작성자:{readBoard[0].username}</ContentWrap>
 
-      <input
+      <InputBox
         ref={inputE1}
         name="subject"
-        type="text"
-        defaultValue={readBoard[0].subject}
+        type="readOnly"
+        value={readBoard[0].subject}
         onChange={onChange}
         readOnly
+        title="제목"
       />
 
-      <label>작성자:{readBoard[0].username}</label>
-
-      <label>내용</label>
-
-      <textarea
+      <TextArea
         ref={inputE2}
         name="content"
-        type="textarea"
+        type="readOnly"
         rows="10"
-        defaultValue={readBoard[0].content}
+        value={readBoard[0].content}
         onChange={onChange}
         readOnly
+        title="내용"
       />
       <ButtonWrap>
-        <Button type="small" onClick={home}>
+        <Button type="middle" onClick={home}>
           목록
         </Button>
         {check && (
           <>
             <ButtonBlock>
-              <Button type="small" onClick={updateItem}>
+              <Button type="middle" onClick={updateItem}>
                 수정
               </Button>
             </ButtonBlock>
             <ButtonBlock>
-              <Button type="small" onClick={updateBoard}>
+              <Button type="middle" onClick={updateBoard}>
                 저장
               </Button>
             </ButtonBlock>
