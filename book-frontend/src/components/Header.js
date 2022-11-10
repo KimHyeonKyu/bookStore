@@ -5,27 +5,6 @@ import styled from "styled-components";
 import logo from "../image/logo.png";
 import SearchForm from "./common/SearchForm";
 
-const StyledHomeContentWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 4rem;
-  letter-spacing: 1px;
-`;
-
-const StyledTitle = styled.div`
-  font-size: 1.5rem;
-  font-color: #6699ff;
-  font-weight: 800;
-  width: 100%;
-  border-bottom: 2px solid #666699;
-`;
-
-const StyledImageBlockWrap = styled.div`
-  diplay: flex;
-  width: 1600px;
-  margin: 0 auto;
-`;
-
 const StyledHeaderWrap = styled.div`
   margin: 0;
   padding: 0;
@@ -71,7 +50,6 @@ const StyledSubHeader = styled.div`
   border-bottom: 2px solid #666699;
 `;
 
-//변경
 const StyledSubHeaderMenu = styled(NavLink)`
   font-size: 1.2rem;
   color: #6699ff;
@@ -92,7 +70,6 @@ const StyledSubHeaderMenu = styled(NavLink)`
   }
 `;
 
-//추가
 const categories = [
   {
     name: "socialbook",

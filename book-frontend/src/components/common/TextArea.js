@@ -19,9 +19,9 @@ const TextArea = ({
   return (
     <StyledInputBoxWrap>
     <label>{title}</label>
-    <div class="form-floating">
+    <div className="form-floating">
       <textarea
-        class="form-control h-25"
+        className="form-control h-25"
         id="floatingTextarea"
         ref={ref}
         name={name}

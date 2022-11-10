@@ -22,40 +22,43 @@ const BookProduct = ({ bookData }) => {
     };
   }, []);
 
-
   const onClickPayment = () => {
-    const { IMP } = window;
-    IMP.init("imp14112312");
-    const data = {
-      pg: "html5_inicis", // PG사
-      pay_method: "card", // 결제수단
-      merchant_uid: `a_${new Date().getTime()}`, // 주문번호
-      amount: bookData.priceStandard, // 결제금액
-      name: bookData.title, // 주문명
-      buyer_name: localStorage.getItem("userName"), // 구매자 이름
-      buyer_tel: "01012341234", // 구매자 전화번호
-      buyer_email: "example@example", // 구매자 이메일
-      buyer_addr: "신사동 661-16", // 구매자 주소
-      buyer_postcode: "06018", // 구매자 우편번호
-    };
-
-    IMP.request_pay(
-      {
-        name: data.name,
-        amount: data.amount,
-        buyer_name: data.buyer_name,
-      },
-      function callback(response) {
-        if (response.success) {
-          data.impUid = response.imp_uid;
-          data.merchant_uid = response.merchant_uid;
-          data.buyer_name = response.buyer_name;
-          orderDone(data);
-        } else {
-          alert(`결제 실패 : ${response.error_msg}`);
+    if(localStorage.getItem("id")){
+      const { IMP } = window;
+      IMP.init("imp14112312");
+      const data = {
+        pg: "html5_inicis", // PG사
+        pay_method: "card", // 결제수단
+        merchant_uid: `a_${new Date().getTime()}`, // 주문번호
+        amount: bookData.priceStandard, // 결제금액
+        name: bookData.title, // 주문명
+        buyer_name: localStorage.getItem("userName"), // 구매자 이름
+        buyer_tel: "01012341234", // 구매자 전화번호
+        buyer_email: "example@example", // 구매자 이메일
+        buyer_addr: "신사동 661-16", // 구매자 주소
+        buyer_postcode: "06018", // 구매자 우편번호
+      };
+  
+      IMP.request_pay(
+        {
+          name: data.name,
+          amount: data.amount,
+          buyer_name: data.buyer_name,
+        },
+        function callback(response) {
+          if (response.success) {
+            data.impUid = response.imp_uid;
+            data.merchant_uid = response.merchant_uid;
+            data.buyer_name = response.buyer_name;
+            orderDone(data);
+          } else {
+            alert(`결제 실패 : ${response.error_msg}`);
+          }
         }
-      }
-    );
+      );
+    } else{
+      alert("로그인 후 이용해 주세요");
+    }
   };
 
   const orderDone = async (data) => {
@@ -94,29 +97,33 @@ const BookProduct = ({ bookData }) => {
 
   axios.get("/api/auth/check").then((response) => {
     setCheckLogin(response.data._id);
-    console.log(response.data._id);
   });
 
   const onClickShoppingBasket = async (e) => {
-    let bookName = bookData.title;
-    let bookPrice = bookData.priceStandard;
-    let quantity = 1;
-    let checkState = "isFull";
-    let bookImage = bookData.cover;
-
-    try {
-      axios.post("/api/basket/input", {
-        id,
-        bookName,
-        bookPrice,
-        quantity,
-        checkState,
-        bookImage
-      });
-      navigate("/shoppingBasket");
-    } catch (error) {
-      console.log(error.response.status);
+    if(localStorage.getItem("id")){
+      let bookName = bookData.title;
+      let bookPrice = bookData.priceStandard;
+      let quantity = 1;
+      let checkState = "isFull";
+      let bookImage = bookData.cover;
+  
+      try {
+        axios.post("/api/basket/input", {
+          id,
+          bookName,
+          bookPrice,
+          quantity,
+          checkState,
+          bookImage
+        });
+        navigate("/shoppingBasket");
+      } catch (error) {
+        console.log(error.response.status);
+      }
+    } else {
+      alert("로그인 후 이용해 주세요");
     }
+    
   };
 
   return (
@@ -193,9 +200,11 @@ const BookProduct = ({ bookData }) => {
               <Button type="middle" onClick={onClickShoppingBasket}>
                 장바구니
               </Button>
+              <ButtonBlock>
               <Button type="middle" onClick={onClickPayment}>
                 구매하기
               </Button>
+              </ButtonBlock>
             </CheckOutProduct>
           </StickyAsideDiv>
         </InnerWMobileFull>
@@ -329,6 +338,10 @@ const CheckOutProduct = styled.fieldset`
     display: block;
     clear: both;
   }
+`;
+
+const ButtonBlock = styled.div`
+  margin-left: 3rem;
 `;
 
 export default BookProduct;

@@ -73,12 +73,6 @@ const MyPageContent = () => {
           `/api/order/output?userName=${userName}`
         );
         setOrderData(response.data);
-
-        console.log(userName);
-        axios.post("/api/membership/input", {
-          userName,
-          point
-        });
       } catch (e) {
         console.log(e);
       }

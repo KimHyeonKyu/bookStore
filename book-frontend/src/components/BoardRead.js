@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import Button from "./common/Button";
 import axios from "axios";
 import styled from "styled-components";
-import InputText from "./common/InputText";
 import TextArea from "./common/TextArea";
 import InputBox from "./common/InputBox";
 
@@ -10,10 +9,6 @@ const BoardReadWrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-`;
-const TitleWrap = styled.div`
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
 `;
 const ContentWrap = styled.div`
   font-size: 1.4rem;

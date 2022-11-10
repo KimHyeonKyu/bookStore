@@ -35,7 +35,12 @@ const Table = ({
   };
 
   const handlePageWrite = () => {
-    handleWrite();
+    if(localStorage.getItem("id")){
+      handleWrite();
+    } else {
+      alert("로그인 후 이용해 주세요.");
+    }
+    
   };
   const handlePageRead = (e) => {
     handleRead(e);
