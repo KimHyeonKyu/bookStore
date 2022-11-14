@@ -7,8 +7,7 @@ const StyledInputTextWrap = styled.div`
   }
 `;
 
-const InputText = ({
-  ref,
+const InputText = React.forwardRef(({  
   name,
   type,
   placeholder,
@@ -17,7 +16,7 @@ const InputText = ({
   onChange,
   onMouseMove,
   readOnly
-}) => {
+}, ref) => {
   return (
     <StyledInputTextWrap>
       {type === "address" && (
@@ -46,6 +45,6 @@ const InputText = ({
       )}
     </StyledInputTextWrap>
   );
-};
+});
 
 export default InputText;

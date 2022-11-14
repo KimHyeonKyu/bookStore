@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthTemplate from "../components/common/AuthTemplate";
 import Footer from "../components/Footer";

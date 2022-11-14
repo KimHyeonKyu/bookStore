@@ -23,12 +23,13 @@ const BoardContent = ({ handleMain }) => {
   let nowDate = new Date();
   const [boardIn, setBoardIn] = useState({
     username: localStorage.getItem("userName"),
+    id: localStorage.getItem("id"),
     subject: "",
     content: "",
     datetime: "",
   });
 
-  const { username, subject, content, datetime } = boardIn;
+  const { username, id, subject, content, datetime } = boardIn;
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +45,7 @@ const BoardContent = ({ handleMain }) => {
       try {
         axios.post("/api/board/input", {
           username,
+          id,
           subject,
           content,
           datetime,
@@ -60,7 +62,6 @@ const BoardContent = ({ handleMain }) => {
     <>
       <BoardReadWrap>
         <ContentWrap>작성자:{localStorage.getItem("userName")}</ContentWrap>
-
         <InputBox
           name="subject"
           type="readOnly"
@@ -79,10 +80,7 @@ const BoardContent = ({ handleMain }) => {
         />
       </BoardReadWrap>
       <ButtonWrap>
-        <Button
-          data={nowDate.toLocaleString()}
-          onClick={boardInput}
-        >
+        <Button data={nowDate.toLocaleString()} onClick={boardInput}>
           등록
         </Button>
       </ButtonWrap>

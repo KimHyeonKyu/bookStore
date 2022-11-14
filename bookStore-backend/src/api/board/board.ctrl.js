@@ -4,6 +4,7 @@ import Board from "../../models/board";
 export const input = async (ctx) => {
   const schema = Joi.object().keys({
     username: Joi.string().required(),
+    id: Joi.string().required(),
     subject: Joi.string().required(),
     content: Joi.string().required(),
     datetime: Joi.string().required(),
@@ -15,11 +16,12 @@ export const input = async (ctx) => {
     return;
   }
 
-  const { username, subject, content, datetime } = ctx.request.body; // 변수 받아오는것
+  const { username, id, subject, content, datetime } = ctx.request.body; // 변수 받아오는것
 
   try {
     const board = new Board({
       username,
+      id,
       subject,
       content,
       datetime,

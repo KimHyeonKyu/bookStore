@@ -35,19 +35,23 @@ const Table = ({
   };
 
   const handlePageWrite = () => {
-    if(localStorage.getItem("id")){
+    if (localStorage.getItem("id")) {
       handleWrite();
     } else {
       alert("로그인 후 이용해 주세요.");
     }
-    
   };
   const handlePageRead = (e) => {
     handleRead(e);
   };
 
   const handleDeleteItem = (e) => {
-    handleDelete(e);
+    if (localStorage.getItem("id")) {
+      console.log(boardList);
+      handleDelete(e);
+    } else {
+      alert("로그인 후 이용해 주세요.");
+    }
   };
 
   return (
@@ -57,7 +61,7 @@ const Table = ({
           <tr>
             <th scope="col">번호</th>
             <th scope="col">제목</th>
-            <th scope="col">내용</th>
+
             <th scope="col">작성자</th>
             <th scope="col">작성일</th>
             <th scope="col">보기/삭제</th>
@@ -69,7 +73,7 @@ const Table = ({
               <StyledTr key={data._id}>
                 <td>{(activePage - 1) * 5 + index + 1}</td>
                 <td>{data.subject}</td>
-                <td>{data.content}</td>
+
                 <td>{data.username}</td>
                 <td>{data.datetime}</td>
                 <td>
@@ -81,13 +85,16 @@ const Table = ({
                     >
                       보기
                     </Button>
-                    <Button
-                      data={data._id}
-                      type="small"
-                      onClick={handleDeleteItem}
-                    >
-                      삭제
-                    </Button>
+
+                    {data.id === localStorage.getItem("id") && (
+                      <Button
+                        data={data._id}
+                        type="small"
+                        onClick={handleDeleteItem}
+                      >
+                        삭제
+                      </Button>
+                    )}
                   </ButtonWrap>
                 </td>
               </StyledTr>
@@ -97,7 +104,6 @@ const Table = ({
               <StyledTr key={data._id}>
                 <td>{index + 1}</td>
                 <td>{data.subject}</td>
-                <td>{data.content}</td>
                 <td>{data.username}</td>
                 <td>{data.datetime}</td>
                 <td>
@@ -109,13 +115,15 @@ const Table = ({
                     >
                       보기
                     </Button>
-                    <Button
-                      data={data._id}
-                      type="small"
-                      onClick={handleDeleteItem}
-                    >
-                      삭제
-                    </Button>
+                    {data.id === localStorage.getItem("id") && (
+                      <Button
+                        data={data._id}
+                        type="small"
+                        onClick={handleDeleteItem}
+                      >
+                        삭제
+                      </Button>
+                    )}
                   </ButtonWrap>
                 </td>
               </StyledTr>
