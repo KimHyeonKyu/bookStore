@@ -60,7 +60,6 @@ const Table = ({
           <tr>
             <th scope="col">번호</th>
             <th scope="col">제목</th>
-            <th scope="col">내용</th>
             <th scope="col">작성자</th>
             <th scope="col">작성일</th>
             <th scope="col">보기/삭제</th>
@@ -72,7 +71,6 @@ const Table = ({
               <StyledTr key={data._id}>
                 <td>{(activePage - 1) * 5 + index + 1}</td>
                 <td>{data.subject}</td>
-                <td>{data.content}</td>
                 <td>{data.username}</td>
                 <td>{data.datetime}</td>
                 <td>
